@@ -6,6 +6,7 @@ public class Cell extends JButton{
     private boolean mine;
     private int value;
     private boolean displayStatus;
+    private boolean mark;
 
 
     public Cell() {
@@ -13,6 +14,7 @@ public class Cell extends JButton{
         mine = false;
         value = 0;
         displayStatus = false;
+        mark = false;
     }
     public boolean isMine() {
         return mine;
@@ -33,7 +35,18 @@ public class Cell extends JButton{
     public boolean getDisplayStatus() {
         return displayStatus;
     }
-    public void updateDisplayStatus(boolean status){
-        displayStatus = status;
+    public void updateDisplayStatus(){
+        displayStatus = true;
+    }
+
+    public void mark() {
+        mark = true;
+    }
+    public  void unMark(){
+        mark = false;
+    }
+
+    public boolean isMark() {
+        return mark;
     }
 }

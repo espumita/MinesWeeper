@@ -1,7 +1,7 @@
 package model;
 
 
-public class Grid {
+public class Board {
     private Cell[][] board;
 
     public Cell[][] getBoard() {
@@ -16,7 +16,7 @@ public class Grid {
         return board[0].length;
     }
 
-    public Grid(int rows  , int columns) {
+    public Board(int rows  , int columns) {
 
         this.board = new Cell[rows][columns];
     }

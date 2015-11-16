@@ -1,6 +1,6 @@
 package ui;
 
-import model.Grid;
+import model.Board;
 import model.Cell;
 
 
@@ -8,26 +8,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 
 public class GameDisplay extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JPanel boardPanel;
-    private Grid grid;
+    private Board board;
     private int rowLimit;
     private int columnLimit;
+    private int mines;
+    private int flagsNumber;
     public GameDisplay(int rows, int columns,int mines){
-        this.grid = new Grid(rows,columns);
+        this.board = new Board(rows,columns);
         this.rowLimit=rows-1;
         this.columnLimit =columns-1;
+        this.mines=mines;
+        this.flagsNumber = 0;
         initComponents();
         displayGrid(mines);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+
+
+
+
+
     public void actionPerformed(ActionEvent e){
         Cell cell = (Cell)e.getSource();
+        if(cell.isMark() || cell.getDisplayStatus()) return;
+        cell.updateDisplayStatus();
         if(cell.isMine()){
             displayAllBoard();
             javax.swing.JOptionPane.showMessageDialog(this,"LOST");
@@ -38,7 +51,6 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
             }else{
                 cell.setIcon(new ImageIcon("images/" + cell.getValue() + "mine.png"));
                 cell.setBackground(Color.GREEN);
-                cell.updateDisplayStatus(true);
             }
         }
     }
@@ -46,35 +58,42 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
 
 
     private void displaySafeBoard(int i, int j) {
-        grid.getBoard()[i][j].setIcon(new ImageIcon("images/0mine.png"));
-        grid.getBoard()[i][j].setBackground(Color.GREEN);
-        grid.getBoard()[i][j].updateDisplayStatus(true);
-        if(i-1 >= 0 && !grid.getBoard()[i-1][j].getDisplayStatus() && grid.getBoard()[i-1][j].getValue() == 0) displaySafeBoard(i-1,j);else if(i-1 >= 0) displayAlertedCell(i-1,j);
-        if(j-1 >= 0 && !grid.getBoard()[i][j-1].getDisplayStatus() && grid.getBoard()[i][j-1].getValue() == 0) displaySafeBoard(i,j-1);else if(j-1 >= 0) displayAlertedCell(i,j-1);
-        if(i+1 <= rowLimit && !grid.getBoard()[i+1][j].getDisplayStatus() && grid.getBoard()[i+1][j].getValue() == 0) displaySafeBoard(i+1,j);else if(i+1 <= rowLimit) displayAlertedCell(i+1,j);
-        if(j+1 <= columnLimit && !grid.getBoard()[i][j+1].getDisplayStatus() && grid.getBoard()[i][j+1].getValue() == 0) displaySafeBoard(i,j+1);else if(j+1 <= columnLimit) displayAlertedCell(i,j+1);
-        if(i-1 >= 0 && j-1 >= 0 && !grid.getBoard()[i-1][j-1].getDisplayStatus() && grid.getBoard()[i-1][j-1].getValue() == 0) displaySafeBoard(i-1,j-1);else if(i-1 >= 0 && j-1 >= 0) displayAlertedCell(i-1,j-1);
-        if(i-1 >= 0 && j+1 <= columnLimit && !grid.getBoard()[i-1][j+1].getDisplayStatus() && grid.getBoard()[i-1][j+1].getValue() == 0) displaySafeBoard(i-1,j+1);else if(i-1 >= 0 && j+1 <= columnLimit) displayAlertedCell(i-1,j+1);
-        if(i+1 <= rowLimit && j-1 >= 0 && !grid.getBoard()[i+1][j-1].getDisplayStatus() && grid.getBoard()[i+1][j-1].getValue() == 0) displaySafeBoard(i+1,j-1);else if(i+1 <= rowLimit && j-1 >= 0) displayAlertedCell(i+1,j-1);
-        if(i+1 <= rowLimit && j+1 <= columnLimit && !grid.getBoard()[i+1][j+1].getDisplayStatus() && grid.getBoard()[i+1][j+1].getValue() == 0) displaySafeBoard(i+1,j+1);else if(i+1 <= rowLimit && j+1 <= columnLimit) displayAlertedCell(i+1,j+1);
+        if(board.getBoard()[i][j].isMark()) return;
+        board.getBoard()[i][j].setIcon(new ImageIcon("images/0mine.png"));
+        board.getBoard()[i][j].setBackground(Color.GREEN);
+        board.getBoard()[i][j].updateDisplayStatus();
+        if(i-1 >= 0 && !board.getBoard()[i-1][j].getDisplayStatus() && board.getBoard()[i-1][j].getValue() == 0) displaySafeBoard(i-1,j);else if(i-1 >= 0) displayAlertedCell(i-1,j);
+        if(j-1 >= 0 && !board.getBoard()[i][j-1].getDisplayStatus() && board.getBoard()[i][j-1].getValue() == 0) displaySafeBoard(i,j-1);else if(j-1 >= 0) displayAlertedCell(i,j-1);
+        if(i+1 <= rowLimit && !board.getBoard()[i+1][j].getDisplayStatus() && board.getBoard()[i+1][j].getValue() == 0) displaySafeBoard(i+1,j);else if(i+1 <= rowLimit) displayAlertedCell(i+1,j);
+        if(j+1 <= columnLimit && !board.getBoard()[i][j+1].getDisplayStatus() && board.getBoard()[i][j+1].getValue() == 0) displaySafeBoard(i,j+1);else if(j+1 <= columnLimit) displayAlertedCell(i,j+1);
+        if(i-1 >= 0 && j-1 >= 0 && !board.getBoard()[i-1][j-1].getDisplayStatus() && board.getBoard()[i-1][j-1].getValue() == 0) displaySafeBoard(i-1,j-1);else if(i-1 >= 0 && j-1 >= 0) displayAlertedCell(i-1,j-1);
+        if(i-1 >= 0 && j+1 <= columnLimit && !board.getBoard()[i-1][j+1].getDisplayStatus() && board.getBoard()[i-1][j+1].getValue() == 0) displaySafeBoard(i-1,j+1);else if(i-1 >= 0 && j+1 <= columnLimit) displayAlertedCell(i-1,j+1);
+        if(i+1 <= rowLimit && j-1 >= 0 && !board.getBoard()[i+1][j-1].getDisplayStatus() && board.getBoard()[i+1][j-1].getValue() == 0) displaySafeBoard(i+1,j-1);else if(i+1 <= rowLimit && j-1 >= 0) displayAlertedCell(i+1,j-1);
+        if(i+1 <= rowLimit && j+1 <= columnLimit && !board.getBoard()[i+1][j+1].getDisplayStatus() && board.getBoard()[i+1][j+1].getValue() == 0) displaySafeBoard(i+1,j+1);else if(i+1 <= rowLimit && j+1 <= columnLimit) displayAlertedCell(i+1,j+1);
     }
 
     private void displayAlertedCell(int i, int j) {
-        grid.getBoard()[i][j].setIcon(new ImageIcon("images/"+ grid.getBoard()[i][j].getValue()+"mine.png"));
-        grid.getBoard()[i][j].setBackground(Color.GREEN);
-        grid.getBoard()[i][j].updateDisplayStatus(true);
+        board.getBoard()[i][j].setIcon(new ImageIcon("images/"+ board.getBoard()[i][j].getValue()+"mine.png"));
+        board.getBoard()[i][j].setBackground(Color.GREEN);
+        board.getBoard()[i][j].updateDisplayStatus();
     }
 
 
     private void displayAllBoard() {
         for (int i = 0; i <= rowLimit; i++) {
             for (int j = 0; j <= columnLimit; j++) {
-                if(grid.getBoard()[i][j].isMine()) {
-                    grid.getBoard()[i][j].setIcon(new ImageIcon("images/mine.png"));
-                    grid.getBoard()[i][j].setBackground(Color.RED);
+                board.getBoard()[i][j].updateDisplayStatus();
+                if(board.getBoard()[i][j].isMark()){
+                    if (!board.getBoard()[i][j].isMine()) board.getBoard()[i][j].setIcon(new ImageIcon("images/badMine.png"));
+                    board.getBoard()[i][j].setBackground(Color.YELLOW);
                 }else{
-                    grid.getBoard()[i][j].setIcon(new ImageIcon("images/"+ grid.getBoard()[i][j].getValue()+"mine.png"));
-                    grid.getBoard()[i][j].setBackground(Color.GREEN);
+                    if(board.getBoard()[i][j].isMine()){
+                        board.getBoard()[i][j].setIcon(new ImageIcon("images/mine.png"));
+                        board.getBoard()[i][j].setBackground(Color.RED);
+                    }else{
+                        board.getBoard()[i][j].setIcon(new ImageIcon("images/" + board.getBoard()[i][j].getValue() + "mine.png"));
+                        board.getBoard()[i][j].setBackground(Color.GREEN);
+                    }
                 }
             }
         }
@@ -91,24 +110,24 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
     private void markPerimeters() {
         for (int i = 0; i <= rowLimit; i++) {
             for (int j = 0; j <= columnLimit; j++) {
-                if(grid.getBoard()[i][j].isMine()) alertPerimeter(i,j);
+                if(board.getBoard()[i][j].isMine()) alertPerimeter(i,j);
             }
         }
     }
 
     private void alertPerimeter(int i, int j) {
-        if(i-1 >= 0 && !grid.getBoard()[i-1][j].isMine()) grid.getBoard()[i-1][j].alert();
-        if(j-1 >= 0 && !grid.getBoard()[i][j-1].isMine()) grid.getBoard()[i][j-1].alert();
-        if(i+1 <= rowLimit && !grid.getBoard()[i+1][j].isMine()) grid.getBoard()[i+1][j].alert();
-        if(j+1 <= columnLimit && !grid.getBoard()[i][j+1].isMine()) grid.getBoard()[i][j+1].alert();
-        if(i-1 >= 0 && j-1 >= 0 && !grid.getBoard()[i-1][j-1].isMine()) grid.getBoard()[i-1][j-1].alert();
-        if(i-1 >= 0 && j+1 <= columnLimit && !grid.getBoard()[i-1][j+1].isMine()) grid.getBoard()[i-1][j+1].alert();
-        if(i+1 <= rowLimit && j-1 >= 0 && !grid.getBoard()[i+1][j-1].isMine()) grid.getBoard()[i+1][j-1].alert();
-        if(i+1 <= rowLimit && j+1 <= columnLimit && !grid.getBoard()[i+1][j+1].isMine()) grid.getBoard()[i+1][j+1].alert();
+        if(i-1 >= 0 && !board.getBoard()[i-1][j].isMine()) board.getBoard()[i-1][j].alert();
+        if(j-1 >= 0 && !board.getBoard()[i][j-1].isMine()) board.getBoard()[i][j-1].alert();
+        if(i+1 <= rowLimit && !board.getBoard()[i+1][j].isMine()) board.getBoard()[i+1][j].alert();
+        if(j+1 <= columnLimit && !board.getBoard()[i][j+1].isMine()) board.getBoard()[i][j+1].alert();
+        if(i-1 >= 0 && j-1 >= 0 && !board.getBoard()[i-1][j-1].isMine()) board.getBoard()[i-1][j-1].alert();
+        if(i-1 >= 0 && j+1 <= columnLimit && !board.getBoard()[i-1][j+1].isMine()) board.getBoard()[i-1][j+1].alert();
+        if(i+1 <= rowLimit && j-1 >= 0 && !board.getBoard()[i+1][j-1].isMine()) board.getBoard()[i+1][j-1].alert();
+        if(i+1 <= rowLimit && j+1 <= columnLimit && !board.getBoard()[i+1][j+1].isMine()) board.getBoard()[i+1][j+1].alert();
     }
 
     private void startGrid() {
-        this.boardPanel.setLayout(new java.awt.GridLayout(grid.getRows(), grid.getColumns()));
+        this.boardPanel.setLayout(new java.awt.GridLayout(board.getRows(), board.getColumns()));
         for (int i = 0; i <= rowLimit; i++) {
             for (int j = 0; j <= columnLimit; j++) {
                 Cell temp = new Cell();
@@ -119,9 +138,28 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
                 temp.setIcon(new ImageIcon("images/ground.png"));
                 temp.setBackground(Color.LIGHT_GRAY);
                 temp.addActionListener(this);
+                temp.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if(temp.getDisplayStatus()) return;
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            if(!temp.isMark()){
+                                if(flagsNumber >= mines) return;
+                                temp.setIcon(new ImageIcon("images/flag.png"));
+                                temp.mark();
+                                flagsNumber++;
+
+                            }else{
+                                temp.setIcon(new ImageIcon("images/ground.png"));
+                                temp.unMark();
+                                flagsNumber--;
+                            }
+                        }
+                    }
+                });
                 temp.setVisible(true);
                 this.boardPanel.add(temp);
-                grid.add(i,j,temp);
+                board.add(i,j,temp);
             }
         }
     }
@@ -131,7 +169,7 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
         Cell temp;
         Random random = new Random();
         while(remainingMines > 0){
-            temp = grid.getBoard()[random.nextInt(rowLimit+1)][random.nextInt(columnLimit +1)];
+            temp = board.getBoard()[random.nextInt(rowLimit+1)][random.nextInt(columnLimit +1)];
             if(!temp.isMine()) {
                 temp.setMined();
                 remainingMines--;
