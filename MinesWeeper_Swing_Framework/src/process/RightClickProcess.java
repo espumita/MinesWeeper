@@ -2,7 +2,7 @@ package process;
 
 
 
-import aplication.Application;
+import aplication.App;
 import control.Game;
 
 
@@ -11,10 +11,10 @@ import javax.swing.*;
 public class RightClickProcess{
 
     public void run(String cellName) {
-        Application.Cell temp = Application.camp.get(cellName);
+        App.Cell temp = App.camp.get(cellName);
         if(temp.isDisplayed()) return;
         if(!temp.isMarked()){
-            if(Game.flagsNumber >= Application.difficulty.getMines()) return;
+            if(Game.flagsNumber >= App.difficulty.getMines()) return;
             temp.setIcon(new ImageIcon("images/flag.png"));
             temp.setMarked(true);
             Game.addFlag();

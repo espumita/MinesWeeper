@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Application extends JFrame {
+public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, Cell> camp = new HashMap<>();
     public static Difficulty difficulty = new Difficulty(16,16,40);
@@ -21,10 +21,10 @@ public class Application extends JFrame {
 
 
     public static void main(String[] args) {
-        new Application().setVisible(true);
+        new App().setVisible(true);
     }
 
-    public Application() throws HeadlessException {
+    public App() throws HeadlessException {
         deployUI();
         createCommands();
     }
@@ -42,6 +42,7 @@ public class Application extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setJMenuBar(menuBar());
+        //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("images/icon.png")));
         this.add(board());
     }
 

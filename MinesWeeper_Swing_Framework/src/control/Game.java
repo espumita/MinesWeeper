@@ -1,14 +1,13 @@
 package control;
 
 
-import aplication.Application;
-import model.Difficulty;
+import aplication.App;
 
 
 public class Game {
     public static int flagsNumber;
     public void start() {
-        Application.started();
+        App.started();
         flagsNumber = 0;
 
 
