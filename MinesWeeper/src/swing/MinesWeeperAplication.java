@@ -1,4 +1,4 @@
-package aplication;
+package swing;
 
 import control.GameControl;
 

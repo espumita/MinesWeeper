@@ -1,4 +1,4 @@
-package aplication;
+package swing;
 
 import control.*;
 import model.Difficulty;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
-    public static Map<String, Cell> camp = new HashMap<>();
+    public static Map<String, SwingCell> camp = new HashMap<>();
     public static Difficulty difficulty = new Difficulty(16,16,40);
     private static boolean startClick = true;
 
@@ -56,16 +56,12 @@ public class App extends JFrame {
     }
 
     private void deployCells(JPanel board) {
-        for (int i = 0; i < difficulty.getRows(); i++) {
-            for (int j = 0; j < difficulty.getColumns(); j++) {
-                board.add(cell(i,j));
-            }
-        }
+        for (int i = 0; i < difficulty.getRows(); i++) for (int j = 0; j < difficulty.getColumns(); j++) board.add(cell(i,j));
     }
 
     private JButton cell(int i, int j) {
-        JButton cell = new Cell();
-        camp.put(i+"_"+j, (Cell) cell);
+        JButton cell = new SwingCell();
+        camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
         cell.setIcon(new ImageIcon("images/ground.png"));
         cell.setPreferredSize(new Dimension(25, 25));
@@ -118,46 +114,4 @@ public class App extends JFrame {
         startClick = false;
     }
 
-    public class Cell extends JButton {
-        private boolean mined;
-        private int value;
-        private boolean displayed;
-        private boolean marked;
-        public Cell() {
-            mined = false;
-            value = 0;
-            displayed = false;
-            marked = false;
-        }
-        public boolean isMined() {
-            return mined;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setMined() {
-            mined = true;
-        }
-
-        public void alert() {
-            this.value++;
-        }
-
-        public boolean isDisplayed() {
-            return displayed;
-        }
-        public void setDisplayed(boolean status){
-            displayed = status;
-        }
-
-        public void setMarked(boolean status) {
-            marked = status;
-        }
-
-        public boolean isMarked() {
-            return marked;
-        }
-    }
 }

@@ -1,55 +1,64 @@
 package process;
 
-import aplication.App;
+import swing.App;
 import control.Game;
 
 import javax.swing.*;
 
 public class LeftClickProcess {
-    public void run(String cellName) {
-        if(App.startClick()) new Game().start();
-        App.Cell temp = App.camp.get(cellName);
-        if(temp.isMarked() || temp.isDisplayed()) return;
-        temp.setDisplayed(true);
-        if(temp.isMined()){
-            displayAllBoard();
-        }else{
-            String[] position = cellName.split("_");
-            if(temp.getValue() == 0) displaySafeBoard(Integer.parseInt(position[0]),Integer.parseInt(position[1]));
-            else temp.setIcon(new ImageIcon("images/" + temp.getValue() + "mine.png"));
+    public void run(String cell) {
+        if(App.startClick()) new Game().start(cell);
+        if(Game.flags().contains(cell) || App.camp.get(cell).isDisplayed()) return;
+        App.camp.get(cell).setDisplayed(true);
+        if(Game.mine().contains(cell)) displayAllBoard();
+        else{
+            if( App.camp.get(cell).getValue() == 0) displaySafeBoard(cell);
+            else setCellIcon(cell);
         }
     }
     private void displayAllBoard() {
-        for (int i = 0; i <= App.difficulty.getRows(); i++) {
-            for (int j = 0; j <= App.difficulty.getColumns(); j++) {
-                App.camp.get(i+"_"+j).setDisplayed(true);
-                if(App.camp.get(i+"_"+j).isMarked()){
-                    if (!App.camp.get(i+"_"+j).isMined()) App.camp.get(i+"_"+j).setIcon(new ImageIcon("images/badMine.png"));
-                }else{
-                    if(App.camp.get(i+"_"+j).isMined()){
-                        App.camp.get(i+"_"+j).setIcon(new ImageIcon("images/mine.png"));
-                    }else{
-                        App.camp.get(i+"_"+j).setIcon(new ImageIcon("images/" + App.camp.get(i+"_"+j).getValue() + "mine.png"));
-                    }
-                }
+        for (String cell : App.camp.keySet()){
+            App.camp.get(cell).setDisplayed(true);
+            if(Game.flags().contains(cell)){
+                if (!Game.mine().contains(cell)) setBadMineIcon(cell);
+            }else{
+                if(Game.mine().contains(cell)) setMineIcon(cell);
+                else setCellIcon(cell);
             }
         }
     }
-    private void displaySafeBoard(int i,int j) {
-        if(App.camp.get(i+"_"+j).isMarked()) return;
-        App.camp.get(i+"_"+j).setIcon(new ImageIcon("images/0mine.png"));
-        App.camp.get(i+"_"+j).setDisplayed(true);
-        if(i-1 >= 0 && !App.camp.get((i-1)+"_"+j).isDisplayed() && App.camp.get((i-1)+"_"+j).getValue() == 0) displaySafeBoard(i-1,j);else if(i-1 >= 0) displayAlertedCell(i-1,j);
-        if(j-1 >= 0 && !App.camp.get(i+"_"+(j-1)).isDisplayed() && App.camp.get(i+"_"+(j-1)).getValue() == 0) displaySafeBoard(i,j-1);else if(j-1 >= 0) displayAlertedCell(i,j-1);
-        if(i+1 <= App.difficulty.getRows()-1 && !App.camp.get((i+1)+"_"+j).isDisplayed() && App.camp.get((i+1)+"_"+j).getValue() == 0) displaySafeBoard(i+1,j);else if(i+1 <= App.difficulty.getRows()-1) displayAlertedCell(i+1,j);
-        if(j+1 <= App.difficulty.getColumns() && !App.camp.get(i+"_"+(j+1)).isDisplayed() && App.camp.get(i+"_"+(j+1)).getValue() == 0) displaySafeBoard(i,j+1);else if(j+1 <= App.difficulty.getColumns()) displayAlertedCell(i,j+1);
-        if(i-1 >= 0 && j-1 >= 0 && !App.camp.get((i-1)+"_"+(j-1)).isDisplayed() && App.camp.get((i-1)+"_"+(j-1)).getValue() == 0) displaySafeBoard(i-1,j-1);else if(i-1 >= 0 && j-1 >= 0) displayAlertedCell(i-1,j-1);
-        if(i-1 >= 0 && j+1 <= App.difficulty.getColumns() && !App.camp.get((i-1)+"_"+(j+1)).isDisplayed() && App.camp.get((i-1)+"_"+(j+1)).getValue() == 0) displaySafeBoard(i-1,j+1);else if(i-1 >= 0 && j+1 <= App.difficulty.getColumns()) displayAlertedCell(i-1,j+1);
-        if(i+1 <= App.difficulty.getRows() && j-1 >= 0 && !App.camp.get((i+1)+"_"+(j-1)).isDisplayed() && App.camp.get((i+1)+"_"+(j-1)).getValue() == 0) displaySafeBoard(i+1,j-1);else if(i+1 <= App.difficulty.getRows() && j-1 >= 0) displayAlertedCell(i+1,j-1);
-        if(i+1 <= App.difficulty.getRows() && j+1 <= App.difficulty.getColumns() && !App.camp.get((i+1)+"_"+(j+1)).isDisplayed() && App.camp.get((i+1)+"_"+(j+1)).getValue() == 0) displaySafeBoard(i+1,j+1);else if(i+1 <= App.difficulty.getRows() && j+1 <= App.difficulty.getColumns()) displayAlertedCell(i+1,j+1);
+
+    private void setBadMineIcon(String cell) {
+        App.camp.get(cell).setIcon(new ImageIcon("images/badMine.png"));
+    }
+
+    private void setMineIcon(String cell) {
+        App.camp.get(cell).setIcon(new ImageIcon("images/mine.png"));
+    }
+
+    private void setCellIcon(String cell) {
+        App.camp.get(cell).setIcon(new ImageIcon("images/" + App.camp.get(cell).getValue() + "mine.png"));
+    }
+
+    private void displaySafeBoard(String cell) {
+        String[] a = cell.split("_");
+        int i = Integer.parseInt(a[0]);
+        int j = Integer.parseInt(a[1]);
+        if(Game.flags().contains(cell)) return;
+        App.camp.get(cell).setIcon(new ImageIcon("images/0mine.png"));
+        App.camp.get(cell).setDisplayed(true);
+        if(i-1 >= 0) if( !App.camp.get((i-1)+"_"+j).isDisplayed() && App.camp.get((i-1)+"_"+j).getValue() == 0) displaySafeBoard((i-1)+"_"+j); else displayAlertedCell(i-1,j);
+        if(j-1 >= 0) if( !App.camp.get(i+"_"+(j-1)).isDisplayed() && App.camp.get(i+"_"+(j-1)).getValue() == 0) displaySafeBoard(i+"_"+(j-1)); else displayAlertedCell(i,j-1);
+        if(i+1 <= App.difficulty.getRows()-1) if(!App.camp.get((i+1)+"_"+j).isDisplayed() && App.camp.get((i+1)+"_"+j).getValue() == 0) displaySafeBoard((i+1)+"_"+j);else displayAlertedCell(i+1,j);
+        if(j+1 <= App.difficulty.getColumns()-1) if(!App.camp.get(i+"_"+(j+1)).isDisplayed() && App.camp.get(i+"_"+(j+1)).getValue() == 0) displaySafeBoard(i+"_"+(j+1));else displayAlertedCell(i,j+1);
+        if(i-1 >= 0 && j-1 >= 0) if( !App.camp.get((i-1)+"_"+(j-1)).isDisplayed() && App.camp.get((i-1)+"_"+(j-1)).getValue() == 0) displaySafeBoard((i-1)+"_"+(j-1));else displayAlertedCell(i-1,j-1);
+        if(i-1 >= 0 && j+1 <= App.difficulty.getColumns()-1) if( !App.camp.get((i-1)+"_"+(j+1)).isDisplayed() && App.camp.get((i-1)+"_"+(j+1)).getValue() == 0) displaySafeBoard((i-1)+"_"+(j+1));else displayAlertedCell(i-1,j+1);
+        if(i+1 <= App.difficulty.getRows()-1 && j-1 >= 0) if( !App.camp.get((i+1)+"_"+(j-1)).isDisplayed() && App.camp.get((i+1)+"_"+(j-1)).getValue() == 0) displaySafeBoard((i+1)+"_"+(j-1));else displayAlertedCell(i+1,j-1);
+        if(i+1 <= App.difficulty.getRows()-1 && j+1 <= App.difficulty.getColumns()-1 )if(!App.camp.get((i+1)+"_"+(j+1)).isDisplayed() && App.camp.get((i+1)+"_"+(j+1)).getValue() == 0) displaySafeBoard((i+1)+"_"+(j+1));else displayAlertedCell(i+1,j+1);
     }
 
     private void displayAlertedCell(int i, int j) {
-
+        setCellIcon(i+"_"+j);
+        App.camp.get(i+"_"+j).setDisplayed(true);
     }
 }

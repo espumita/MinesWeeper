@@ -2,27 +2,25 @@ package process;
 
 
 
-import aplication.App;
+import swing.App;
 import control.Game;
+import swing.SwingCell;
 
 
 import javax.swing.*;
 
 public class RightClickProcess{
 
-    public void run(String cellName) {
-        App.Cell temp = App.camp.get(cellName);
-        if(temp.isDisplayed()) return;
-        if(!temp.isMarked()){
-            if(Game.flagsNumber >= App.difficulty.getMines()) return;
-            temp.setIcon(new ImageIcon("images/flag.png"));
-            temp.setMarked(true);
-            Game.addFlag();
-
+    public void run(String cell) {
+        if(App.camp.get(cell).isDisplayed()) return;
+        Game.flags().contains(cell);
+        if(Game.flags().contains(cell)){
+            App.camp.get(cell).setIcon(new ImageIcon("images/ground.png"));
+            Game.flags().remove(cell);
         }else{
-            temp.setIcon(new ImageIcon("images/ground.png"));
-            temp.setMarked(false);
-            Game.minusFlag();
+            if(Game.flags().size() >= App.difficulty.getMines()) return;
+            App.camp.get(cell).setIcon(new ImageIcon("images/flag.png"));
+            Game.flags().add(cell);
         }
 
     }
