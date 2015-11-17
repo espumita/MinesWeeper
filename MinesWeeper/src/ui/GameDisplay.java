@@ -30,7 +30,6 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
         displayGrid(mines);
         setLocationRelativeTo(null);
         setVisible(true);
-        this.setResizable(false);
     }
 
 
@@ -134,6 +133,7 @@ public class GameDisplay extends javax.swing.JFrame implements ActionListener {
                 Cell temp = new Cell();
                 temp.setName("CellButton_"+i+"_"+j);
                 temp.setSize(25,25);
+                temp.setMaximumSize(temp.getSize());
                 temp.setMinimumSize(temp.getSize());
                 temp.setIcon(new ImageIcon("images/ground.png"));
                 temp.setBackground(Color.LIGHT_GRAY);
