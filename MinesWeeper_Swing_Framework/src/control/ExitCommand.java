@@ -1,6 +1,5 @@
 package control;
 
-
 public class ExitCommand implements Command {
 
     @Override

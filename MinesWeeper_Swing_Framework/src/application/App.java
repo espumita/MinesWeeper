@@ -1,4 +1,4 @@
-package swing;
+package application;
 
 import control.*;
 import model.Difficulty;
@@ -37,7 +37,7 @@ public class App extends JFrame {
 
     private void deployUI() {
         this.setTitle("Minesweeper");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(25*difficulty.getRows(),30*difficulty.getColumns()));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -63,7 +63,6 @@ public class App extends JFrame {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
-        cell.setIcon(new ImageIcon("images/ground.png"));
         cell.setPreferredSize(new Dimension(25, 25));
         cell.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
         cell.addMouseListener(new MouseAdapter() {
