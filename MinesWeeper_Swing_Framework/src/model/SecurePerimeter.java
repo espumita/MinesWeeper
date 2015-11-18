@@ -1,17 +1,19 @@
 package model;
 
-import application.App;
-import control.Game;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static application.App.difficulty;
+import static application.App.camp;
+import static control.Game.flags;
+import static control.Game.displayedCells;
 
 public class SecurePerimeter {
     public List<String> get(String cell) {
         List<String> perimeter = new ArrayList<>();
-        if(Game.flags().contains(cell)) return perimeter;
-        App.camp.get(cell).setCellStartIcon();
-        Game.displayedCells().add(cell);
+        if(flags().contains(cell)) return perimeter;
+        camp.get(cell).setCellStartIcon();
+        displayedCells().add(cell);
         String[] a = cell.split("_");
         int i = Integer.parseInt(a[0]);
         int j = Integer.parseInt(a[1]);
@@ -27,15 +29,15 @@ public class SecurePerimeter {
     }
 
     private boolean isSafe(String cell) {
-        return !Game.displayedCells().contains(cell) && !Game.flags().contains(cell);
+        return !displayedCells().contains(cell) && !flags().contains(cell);
     }
 
     private boolean upperLimitOfColumns(int j) {
-        return j+1 <= App.difficulty.getColumns()-1;
+        return j+1 <= difficulty.getColumns()-1;
     }
 
     private boolean upperLimitOfRows(int i) {
-        return i+1 <= App.difficulty.getRows()-1;
+        return i+1 <= difficulty.getRows()-1;
     }
 
     private boolean lowerLimitOfColumns(int j) {

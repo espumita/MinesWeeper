@@ -17,7 +17,7 @@ public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, SwingCell> camp = new HashMap<>();
     public static Difficulty difficulty = new Difficulty(16,16,40);
-    public static boolean startClick = true;
+    public static boolean firstClick = true;
 
     public static void main(String[] args) {
         new App().setVisible(true);
@@ -106,6 +106,6 @@ public class App extends JFrame {
     }
 
     public static void started(){
-        startClick = false;
+        firstClick = false;
     }
 }

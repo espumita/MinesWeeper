@@ -1,9 +1,9 @@
 package model;
 
-import application.App;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static application.App.difficulty;
 
 public class AlertPerimeter {
 
@@ -24,11 +24,11 @@ public class AlertPerimeter {
     }
 
     private boolean upperLimitOfColumns(int j) {
-        return j+1 <= App.difficulty.getColumns()-1;
+        return j+1 <= difficulty.getColumns()-1;
     }
 
     private boolean upperLimitOfRows(int i) {
-        return i+1 <= App.difficulty.getRows()-1;
+        return i+1 <= difficulty.getRows()-1;
     }
 
     private boolean lowerLimitOfColumns(int j) {

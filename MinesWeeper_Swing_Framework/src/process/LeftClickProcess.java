@@ -1,13 +1,13 @@
 package process;
 
 import control.Game;
-import static application.App.startClick;
+import static application.App.firstClick;
 import static application.App.camp;
 import static control.Game.*;
 
 public class LeftClickProcess {
     public void run(String cell) {
-        if(startClick) new Game().start(cell);
+        if(firstClick) new Game().start(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
         setDisplayed(cell);
         handleCellDisplay(cell);
@@ -15,7 +15,7 @@ public class LeftClickProcess {
 
     private void handleCellDisplay(String cell) {
         if(isMine(cell)) displayAllCamp();
-        else if(camp.get(cell).getAlertLevel() == 0) new setSecurePerimeterProcess().run(cell);
+        else if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
             else displayCell(cell);
     }
 
