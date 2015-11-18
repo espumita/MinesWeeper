@@ -12,6 +12,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.util.stream.IntStream.concat;
 
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
@@ -56,8 +62,11 @@ public class App extends JFrame {
     }
 
     private void deployCells(JPanel board) {
-        for (int i = 0; i < difficulty.getRows(); i++) for (int j = 0; j < difficulty.getColumns(); j++) board.add(cell(i,j));
+        IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j))));
     }
+
+
+
 
     private JButton cell(int i, int j) {
         JButton cell = new SwingCell();

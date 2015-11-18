@@ -33,8 +33,6 @@ public class LeftClickProcess {
         }
     }
 
-
-
     private void displaySafeBoard(String cell) {
         String[] a = cell.split("_");
         int i = Integer.parseInt(a[0]);
