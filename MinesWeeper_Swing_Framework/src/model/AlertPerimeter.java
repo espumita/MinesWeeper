@@ -5,7 +5,7 @@ import application.App;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Perimeter {
+public class AlertPerimeter {
 
     public List<String> get(String cell) {
         List<String> perimeter = new ArrayList<>();
