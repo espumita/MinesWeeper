@@ -15,19 +15,19 @@ public class SafePerimeter {
         String[] a = cell.split("_");
         int i = Integer.parseInt(a[0]);
         int j = Integer.parseInt(a[1]);
-        if(lowerLimitOfRows(i) && !isDisplayed((i-1)+"_"+j)) perimeter.add((i-1)+"_"+j);
-        if(lowerLimitOfRows(i) && lowerLimitOfColumns(j) && !isDisplayed((i-1)+"_"+(j-1))) perimeter.add((i-1)+"_"+(j-1));
-        if(lowerLimitOfRows(i) && upperLimitOfColumns(j) && !isDisplayed((i-1)+"_"+(j+1))) perimeter.add((i-1)+"_"+(j+1));
-        if(upperLimitOfRows(i) && !isDisplayed((i+1)+"_"+j)) perimeter.add((i+1)+"_"+j);
-        if(upperLimitOfRows(i) && lowerLimitOfColumns(j) && !isDisplayed((i+1)+"_"+(j-1))) perimeter.add((i+1)+"_"+(j-1));
-        if(upperLimitOfRows(i) && upperLimitOfColumns(j) && !isDisplayed((i+1)+"_"+(j+1))) perimeter.add((i+1)+"_"+(j+1));
-        if(lowerLimitOfColumns(j) && !isDisplayed(i+"_"+(j-1))) perimeter.add(i+"_"+(j-1));
-        if(upperLimitOfColumns(j) && !isDisplayed(i+"_"+(j+1))) perimeter.add(i+"_"+(j+1));
+        if(lowerLimitOfRows(i) && isSafe((i-1)+"_"+j)) perimeter.add((i-1)+"_"+j);
+        if(lowerLimitOfRows(i) && lowerLimitOfColumns(j) && isSafe((i-1)+"_"+(j-1))) perimeter.add((i-1)+"_"+(j-1));
+        if(lowerLimitOfRows(i) && upperLimitOfColumns(j) && isSafe((i-1)+"_"+(j+1))) perimeter.add((i-1)+"_"+(j+1));
+        if(upperLimitOfRows(i) && isSafe((i+1)+"_"+j)) perimeter.add((i+1)+"_"+j);
+        if(upperLimitOfRows(i) && lowerLimitOfColumns(j) && isSafe((i+1)+"_"+(j-1))) perimeter.add((i+1)+"_"+(j-1));
+        if(upperLimitOfRows(i) && upperLimitOfColumns(j) && isSafe((i+1)+"_"+(j+1))) perimeter.add((i+1)+"_"+(j+1));
+        if(lowerLimitOfColumns(j) && isSafe(i+"_"+(j-1))) perimeter.add(i+"_"+(j-1));
+        if(upperLimitOfColumns(j) && isSafe(i+"_"+(j+1))) perimeter.add(i+"_"+(j+1));
         return  perimeter;
     }
 
-    private boolean isDisplayed(String cell) {
-        return Game.displayedCells().contains(cell);
+    private boolean isSafe(String cell) {
+        return !Game.displayedCells().contains(cell) && !Game.flags().contains(cell);
     }
 
     private boolean upperLimitOfColumns(int j) {

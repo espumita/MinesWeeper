@@ -4,27 +4,14 @@ import application.App;
 import application.SwingCell;
 import control.Game;
 
-
 public class LeftClickProcess {
     public void run(String cell) {
-        leftMouseClickChecks(cell);
-        if(isMine(cell)) {
-            displayAllBoard();
-        }
-        else {
-            if (getCell(cell).getValue() == 0) {
-                new SafePerimeterProcess().run(cell);
-            }
-            else {
-                getCell(cell).setCellIcon();
-            }
-        }
-    }
-
-    private void leftMouseClickChecks(String cell) {
         if(App.startClick()) new Game().start(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
         setDisplayed(cell);
+        if(isMine(cell)) displayAllBoard();
+        else if(getCell(cell).getValue() == 0) new SafePerimeterProcess().run(cell);
+            else getCell(cell).setCellIcon();
     }
 
     private boolean setDisplayed(String cell) {
@@ -42,7 +29,6 @@ public class LeftClickProcess {
     private boolean isMine(String cell) {
         return Game.mine().contains(cell);
     }
-
 
     private boolean isDisplayed(String cell) {
         return Game.displayedCells().contains(cell);

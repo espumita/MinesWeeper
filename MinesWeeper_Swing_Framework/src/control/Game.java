@@ -40,6 +40,5 @@ public class Game {
     public static List<String> displayedCells(){
         return displayedCells;
     }
-
 }
 

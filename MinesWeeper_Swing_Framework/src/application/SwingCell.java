@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class SwingCell extends JButton {
     private int value;
+
     public SwingCell() {
         value = 0;
         setCellGroundIcon();

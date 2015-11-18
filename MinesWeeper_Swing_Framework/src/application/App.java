@@ -5,26 +5,19 @@ import model.Difficulty;
 import process.LeftClickProcess;
 import process.RightClickProcess;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import static java.util.stream.IntStream.concat;
 
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, SwingCell> camp = new HashMap<>();
     public static Difficulty difficulty = new Difficulty(16,16,40);
     private static boolean startClick = true;
-
 
     public static void main(String[] args) {
         new App().setVisible(true);
@@ -65,9 +58,6 @@ public class App extends JFrame {
         IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j))));
     }
 
-
-
-
     private JButton cell(int i, int j) {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
@@ -83,7 +73,6 @@ public class App extends JFrame {
         return cell;
     }
 
-
     private JMenuBar menuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(gameMenu());
@@ -97,6 +86,7 @@ public class App extends JFrame {
         menu.add(exitOperation());
         return  menu;
     }
+
     private JMenuItem difficultyOperation() {
         JMenuItem operation = new JMenuItem("Difficulty");
         operation.addActionListener(e -> commands.get("Difficult").execute());
@@ -118,8 +108,8 @@ public class App extends JFrame {
     public static boolean startClick(){
         return startClick;
     }
+
     public static void started(){
         startClick = false;
     }
-
 }

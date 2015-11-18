@@ -12,11 +12,12 @@ public class SafePerimeterProcess {
 
     private void safe(String cell) {
         if(App.camp.get(cell).getValue() == 0) new SafePerimeterProcess().run(cell);
-        else{
-            App.camp.get(cell).setCellIcon();
-            Game.displayedCells().add(cell);
-        }
+        else displayCell(cell);
+    }
 
+    private void displayCell(String cell) {
+        App.camp.get(cell).setCellIcon();
+        Game.displayedCells().add(cell);
     }
 
 }

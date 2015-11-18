@@ -1,7 +1,5 @@
 package process;
 
-
-
 import application.App;
 import application.SwingCell;
 import control.Game;
@@ -10,7 +8,6 @@ public class RightClickProcess{
 
     public void run(String cell) {
         if(isDisplayed(cell)) return;
-        Game.flags().contains(cell);
         if(Game.flags().contains(cell)){
             getCell(cell).setCellGroundIcon();
             Game.flags().remove(cell);
