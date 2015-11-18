@@ -6,7 +6,7 @@ import control.Game;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SafePerimeter {
+public class SecurePerimeter {
     public List<String> get(String cell) {
         List<String> perimeter = new ArrayList<>();
         if(Game.flags().contains(cell)) return perimeter;

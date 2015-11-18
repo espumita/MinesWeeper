@@ -3,24 +3,24 @@ package application;
 import javax.swing.*;
 
 public class SwingCell extends JButton {
-    private int value;
+    private int alertLevel;
 
     public SwingCell() {
-        value = 0;
+        alertLevel = 0;
         setCellGroundIcon();
     }
 
-    public int getValue() {
-        return value;
+    public int getAlertLevel() {
+        return alertLevel;
     }
 
-    public void alert() { this.value++; }
+    public void alert() { alertLevel++; }
 
     public void setCellIcon() {
-        setIcon(new ImageIcon("images/"+value+"mine.png"));
+        setIcon(new ImageIcon("images/"+alertLevel+"mine.png"));
     }
 
-    public void setBadMineIcon(){
+    public void setWrongMineIcon(){
         setIcon(new ImageIcon("images/badMine.png"));
     }
 

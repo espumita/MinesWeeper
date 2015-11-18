@@ -1,7 +1,8 @@
 package process;
 
-import application.App;
 import model.AlertPerimeter;
+
+import static  application.App.camp;
 
 public class AlertPerimeterProcess {
     public void run(String cell) {
@@ -9,6 +10,6 @@ public class AlertPerimeterProcess {
     }
 
     private void alert(String cell){
-        App.camp.get(cell).alert();
+        camp.get(cell).alert();
     }
 }

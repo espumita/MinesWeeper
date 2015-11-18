@@ -1,26 +1,36 @@
 package process;
 
-import application.App;
-import application.SwingCell;
 import control.Game;
+
+import static application.App.camp;
+import static application.App.difficulty;
+import static control.Game.flags;
 
 public class RightClickProcess{
 
     public void run(String cell) {
         if(isDisplayed(cell)) return;
-        if(Game.flags().contains(cell)){
-            getCell(cell).setCellGroundIcon();
-            Game.flags().remove(cell);
-        }else{
-            if(Game.flags().size() >= App.difficulty.getMines()) return;
-            getCell(cell).setFlagIcon();
-            Game.flags().add(cell);
-        }
-
+        if(flags().contains(cell)) removeFlag(cell);
+        else addFlag(cell);
     }
 
-    private SwingCell getCell(String cell) {
-        return App.camp.get(cell);
+    private void addFlag(String cell) {
+        if(flags().size() >= difficulty.getMines()) return;
+        displayFlag(cell);
+        flags().add(cell);
+    }
+
+    private void removeFlag(String cell) {
+        displayGround(cell);
+        flags().remove(cell);
+    }
+
+    private void displayGround(String cell) {
+        camp.get(cell).setCellGroundIcon();
+    }
+
+    private void displayFlag(String cell) {
+        camp.get(cell).setFlagIcon();
     }
 
     private boolean isDisplayed(String cell) {
