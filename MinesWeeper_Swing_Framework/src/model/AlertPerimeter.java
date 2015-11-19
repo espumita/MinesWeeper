@@ -2,40 +2,25 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import static application.App.difficulty;
+import static application.App.camp;
 
 public class AlertPerimeter {
+    private List<String> perimeter = new ArrayList<>();
+    private String[] positions;
 
     public List<String> get(String cell) {
-        List<String> perimeter = new ArrayList<>();
-        String[] a = cell.split("_");
-        int i = Integer.parseInt(a[0]);
-        int j = Integer.parseInt(a[1]);
-        if(lowerLimitOfRows(i)) perimeter.add((i-1)+"_"+j);
-        if(lowerLimitOfRows(i) && lowerLimitOfColumns(j)) perimeter.add((i-1)+"_"+(j-1));
-        if(lowerLimitOfRows(i) && upperLimitOfColumns(j)) perimeter.add((i-1)+"_"+(j+1));
-        if(upperLimitOfRows(i)) perimeter.add((i+1)+"_"+j);
-        if(upperLimitOfRows(i) && lowerLimitOfColumns(j)) perimeter.add((i+1)+"_"+(j-1));
-        if(upperLimitOfRows(i) && upperLimitOfColumns(j)) perimeter.add((i+1)+"_"+(j+1));
-        if(lowerLimitOfColumns(j)) perimeter.add(i+"_"+(j-1));
-        if(upperLimitOfColumns(j)) perimeter.add(i+"_"+(j+1));
+        positions = cell.split("_");
+        IntStream.range(cell(0)-1,cell(0)+2).forEach(k -> IntStream.range(cell(1)-1,cell(1)+2).forEach(l -> checkCell(k+"_"+l)));
         return  perimeter;
     }
 
-    private boolean upperLimitOfColumns(int j) {
-        return j+1 <= difficulty.getColumns()-1;
+    private int cell(int position) {
+        return Integer.parseInt(positions[position]);
     }
 
-    private boolean upperLimitOfRows(int i) {
-        return i+1 <= difficulty.getRows()-1;
-    }
-
-    private boolean lowerLimitOfColumns(int j) {
-        return j-1 >= 0;
-    }
-
-    private boolean lowerLimitOfRows(int i) {
-        return i-1 >= 0;
+    private void checkCell(String cell) {
+        if( cell != cell(0)+"_"+cell(1) && camp.containsKey(cell)) perimeter.add(cell);
     }
 }

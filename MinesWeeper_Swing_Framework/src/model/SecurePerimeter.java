@@ -2,49 +2,38 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import static application.App.difficulty;
 import static application.App.camp;
 import static control.Game.flags;
 import static control.Game.displayedCells;
 
 public class SecurePerimeter {
+    private  List<String> perimeter = new ArrayList<>();
+    private String[] positions;
+
     public List<String> get(String cell) {
-        List<String> perimeter = new ArrayList<>();
         if(flags().contains(cell)) return perimeter;
-        camp.get(cell).setCellStartIcon();
-        displayedCells().add(cell);
-        String[] a = cell.split("_");
-        int i = Integer.parseInt(a[0]);
-        int j = Integer.parseInt(a[1]);
-        if(lowerLimitOfRows(i) && isSafe((i-1)+"_"+j)) perimeter.add((i-1)+"_"+j);
-        if(lowerLimitOfRows(i) && lowerLimitOfColumns(j) && isSafe((i-1)+"_"+(j-1))) perimeter.add((i-1)+"_"+(j-1));
-        if(lowerLimitOfRows(i) && upperLimitOfColumns(j) && isSafe((i-1)+"_"+(j+1))) perimeter.add((i-1)+"_"+(j+1));
-        if(upperLimitOfRows(i) && isSafe((i+1)+"_"+j)) perimeter.add((i+1)+"_"+j);
-        if(upperLimitOfRows(i) && lowerLimitOfColumns(j) && isSafe((i+1)+"_"+(j-1))) perimeter.add((i+1)+"_"+(j-1));
-        if(upperLimitOfRows(i) && upperLimitOfColumns(j) && isSafe((i+1)+"_"+(j+1))) perimeter.add((i+1)+"_"+(j+1));
-        if(lowerLimitOfColumns(j) && isSafe(i+"_"+(j-1))) perimeter.add(i+"_"+(j-1));
-        if(upperLimitOfColumns(j) && isSafe(i+"_"+(j+1))) perimeter.add(i+"_"+(j+1));
+        secureProtocol(cell);
+        positions = cell.split("_");
+        IntStream.range(cell(0)-1,cell(0)+2).forEach(k -> IntStream.range(cell(1)-1,cell(1)+2).forEach(l -> checkCell(k+"_"+l)));
         return  perimeter;
     }
 
+    private void secureProtocol(String cell) {
+        camp.get(cell).setCellStartIcon();
+        displayedCells().add(cell);
+    }
+
+    private void checkCell(String cell) {
+        if(cell != cell(0)+"_"+cell(1) && camp.containsKey(cell) && isSafe(cell)) perimeter.add(cell);
+    }
+
+    private int cell(int position) {
+        return Integer.parseInt(positions[position]);
+    }
     private boolean isSafe(String cell) {
         return !displayedCells().contains(cell) && !flags().contains(cell);
     }
 
-    private boolean upperLimitOfColumns(int j) {
-        return j+1 <= difficulty.getColumns()-1;
-    }
-
-    private boolean upperLimitOfRows(int i) {
-        return i+1 <= difficulty.getRows()-1;
-    }
-
-    private boolean lowerLimitOfColumns(int j) {
-        return j-1 >= 0;
-    }
-
-    private boolean lowerLimitOfRows(int i) {
-        return i-1 >= 0;
-    }
 }

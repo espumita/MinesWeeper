@@ -9,10 +9,10 @@ import static control.Game.displayedCells;
 public class SetSecurePerimeterProcess {
 
     public void run(String cell) {
-        new SecurePerimeter().get(cell).stream().forEach(s -> safe(s));
+        new SecurePerimeter().get(cell).stream().forEach(s -> secure(s));
     }
 
-    private void safe(String cell) {
+    private void secure(String cell) {
         if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
         else displayCell(cell);
     }
