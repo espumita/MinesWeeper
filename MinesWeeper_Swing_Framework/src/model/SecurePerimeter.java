@@ -8,10 +8,11 @@ import static application.App.camp;
 import static control.Game.flags;
 import static control.Game.displayedCells;
 
-public class SecurePerimeter {
+public class SecurePerimeter implements Perimeter {
     private  List<String> perimeter = new ArrayList<>();
     private String[] positions;
 
+    @Override
     public List<String> get(String cell) {
         if(flags().contains(cell)) return perimeter;
         secureProtocol(cell);
@@ -26,12 +27,21 @@ public class SecurePerimeter {
     }
 
     private void checkCell(String cell) {
-        if(cell != cell(0)+"_"+cell(1) && camp.containsKey(cell) && isSafe(cell)) perimeter.add(cell);
+        if(isNotThis(cell) && exists(cell) && isSafe(cell)) perimeter.add(cell);
+    }
+
+    private boolean isNotThis(String cell) {
+        return cell != cell(0)+"_"+cell(1);
+    }
+
+    private boolean exists(String cell) {
+        return camp.containsKey(cell);
     }
 
     private int cell(int position) {
         return Integer.parseInt(positions[position]);
     }
+
     private boolean isSafe(String cell) {
         return !displayedCells().contains(cell) && !flags().contains(cell);
     }

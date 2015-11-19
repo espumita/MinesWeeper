@@ -6,8 +6,8 @@ import model.SecurePerimeter;
 import static application.App.camp;
 import static control.Game.displayedCells;
 
-public class SetSecurePerimeterProcess {
-
+public class SetSecurePerimeterProcess implements Process{
+    @Override
     public void run(String cell) {
         new SecurePerimeter().get(cell).stream().forEach(s -> secure(s));
     }

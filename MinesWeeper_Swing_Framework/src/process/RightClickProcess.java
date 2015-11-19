@@ -6,8 +6,8 @@ import static application.App.camp;
 import static application.App.difficulty;
 import static control.Game.flags;
 
-public class RightClickProcess{
-
+public class RightClickProcess implements Process{
+    @Override
     public void run(String cell) {
         if(isDisplayed(cell)) return;
         if(flags().contains(cell)) removeFlag(cell);

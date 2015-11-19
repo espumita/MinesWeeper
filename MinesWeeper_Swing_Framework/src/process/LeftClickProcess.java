@@ -5,7 +5,8 @@ import static application.App.firstClick;
 import static application.App.camp;
 import static control.Game.*;
 
-public class LeftClickProcess {
+public class LeftClickProcess implements Process{
+    @Override
     public void run(String cell) {
         if(firstClick) new Game().start(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
