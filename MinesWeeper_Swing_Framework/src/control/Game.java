@@ -1,6 +1,5 @@
 package control;
 
-import application.App;
 import process.SetAlertPerimeterProcess;
 
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import static application.App.started;
+import static application.App.difficulty;
 
 public class Game {
     private static List<String> mines = new ArrayList<>();
@@ -21,8 +21,8 @@ public class Game {
 
     private void dropMines(String cell) {
         Random random = new Random();
-        while(mines.size() < App.difficulty.getMines()){
-            String mine = random.nextInt(App.difficulty.getRows())+"_"+random.nextInt(App.difficulty.getColumns());
+        while(mines.size() < difficulty.getMines()){
+            String mine = random.nextInt(difficulty.getRows())+"_"+random.nextInt(difficulty.getColumns());
             if(!mines.contains(mine) && !mine.equals(cell)) plantMine(mine);
         }
     }

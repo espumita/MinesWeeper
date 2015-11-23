@@ -24,8 +24,8 @@ public class App extends JFrame {
     }
 
     public App() throws HeadlessException {
-        deployUI();
         createCommands();
+        deployUI();
     }
 
     private void createCommands() {
@@ -84,7 +84,7 @@ public class App extends JFrame {
         menu.add(difficultyOperation());
         menu.add(restartOperation());
         menu.add(exitOperation());
-        return  menu;
+        return menu;
     }
 
     private JMenuItem difficultyOperation() {

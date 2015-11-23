@@ -1,6 +1,5 @@
 package control;
 
-import model.Difficulty;
 import view.OpenDifficultyDialog;
 
 public class DifficultyCommand implements Command {
