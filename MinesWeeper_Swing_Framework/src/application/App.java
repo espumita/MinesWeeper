@@ -17,8 +17,9 @@ import java.util.stream.IntStream;
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, SwingCell> camp = new HashMap<>();
-    public static Difficulty difficulty = new MediumDifficulty();
+    public static Difficulty difficulty = new HardDifficulty();
     public static boolean firstClick = true;
+    public GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
     public static void main(String[] args) {
         new App().setVisible(true);
@@ -74,8 +75,9 @@ public class App extends JFrame {
         JPanel board = new JPanel();
         board.setBackground(Color.BLACK);
         board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        board.setPreferredSize(new Dimension(difficulty.getRows()*25,difficulty.getColumns()*25));
-        board.setLayout(new GridLayout(difficulty.getRows(),difficulty.getColumns()));
+        board.setPreferredSize(new Dimension(difficulty.getRows()*25+30,difficulty.getColumns()*25+30));
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        board.setLayout(new GridBagLayout());
         deployCells(board);
         return board;
     }
@@ -88,7 +90,7 @@ public class App extends JFrame {
 
 
     private void deployCells(JPanel board) {
-        IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j))));
+        IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j),gridBagConstraints)));
     }
 
     private JButton cell(int i, int j) {
@@ -96,7 +98,9 @@ public class App extends JFrame {
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
         cell.setToolTipText(i+"_"+j);
-        cell.setPreferredSize(new Dimension(25, 25));
+        gridBagConstraints.gridx = i;
+        gridBagConstraints.gridy = j;
+        cell.setPreferredSize(new Dimension(25,25));
         cell.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
         cell.addMouseListener(new MouseAdapter() {
             @Override
