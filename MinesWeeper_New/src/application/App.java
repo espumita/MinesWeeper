@@ -2,11 +2,11 @@ package application;
 
 import control.*;
 import model.*;
+import process.ChronometerThread;
 import process.LeftClickProcess;
 import process.RightClickProcess;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +20,8 @@ public class App extends JFrame {
     public static Difficulty difficulty = new HardDifficulty();
     public static boolean firstClick = true;
     public GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    public static Map<String,JComponent> components = new HashMap<>();
+    public static ChronometerThread chronometer;
 
     public static void main(String[] args) {
         new App().setVisible(true);
@@ -33,7 +35,7 @@ public class App extends JFrame {
 
     private void createCommands() {
         commands.put("Difficult", new DifficultyCommand());
-        commands.put("Restart", new RestartCommand());
+        commands.put("Reset", new ResetCommand());
         commands.put("Exit", new ExitCommand());
     }
 
@@ -64,11 +66,21 @@ public class App extends JFrame {
     }
 
     private JPanel topPanel() {
-        JPanel center = new JPanel();
-        center.setBackground(Color.cyan);
-        center.setPreferredSize(new Dimension(50,80));
-        center.add(chronometer());
-        return center;
+        JPanel infoPanel = new JPanel();
+        infoPanel.setBackground(Color.cyan);
+        infoPanel.setPreferredSize(new Dimension(50,90));
+        infoPanel.add(resetButton());
+        infoPanel.add(chronometer());
+        return infoPanel;
+    }
+
+    private JButton resetButton() {
+        JButton reset = new JButton();
+        reset.setIcon(new ImageIcon("images/reset.png"));
+        reset.setPreferredSize(new Dimension(75,75));
+        reset.addActionListener(e -> commands.get("Reset").execute());
+        return reset;
+
     }
 
     private JPanel board() {
@@ -84,7 +96,8 @@ public class App extends JFrame {
 
     private JLabel chronometer() {
         JLabel chronometer = new JLabel();
-        chronometer.setText("asd");
+        components.put("chronometer",chronometer);
+        chronometer.setText("0");
         return chronometer;
     }
 
@@ -120,7 +133,6 @@ public class App extends JFrame {
     private JMenu gameMenu() {
         JMenu menu = new JMenu("Game");
         menu.add(difficultyOperation());
-        menu.add(restartOperation());
         menu.add(exitOperation());
         return menu;
     }
@@ -131,19 +143,13 @@ public class App extends JFrame {
         return operation;
     }
 
-    private JMenuItem restartOperation() {
-        JMenuItem operation = new JMenuItem("Restart game");
-        operation.addActionListener(e -> commands.get("Restart").execute());
-        return operation;
-    }
-
     private JMenuItem exitOperation() {
         JMenuItem operation = new JMenuItem("Exit");
         operation.addActionListener(e -> commands.get("Exit").execute());
         return operation;
     }
 
-    public static void started(){
-        firstClick = false;
+    public static void started(boolean status){
+        firstClick = !status;
     }
 }

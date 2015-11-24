@@ -1,5 +1,6 @@
 package control;
 
+import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
 
 import java.util.ArrayList;
@@ -8,16 +9,25 @@ import java.util.Random;
 
 import static application.App.started;
 import static application.App.difficulty;
+import static application.App.chronometer;
 
 public class Game {
     private static List<String> mines = new ArrayList<>();
     private static List<String> flags = new ArrayList<>();
     private static List<String> displayedCells = new ArrayList<>();
 
-    public void start(String cell) {
-        started();
+    public void startGame(String cell) {
+        started(true);
         dropMines(cell);
+        chronometer = new ChronometerThread();
+        chronometer.start();
     }
+
+    public static void endGame(){
+        chronometer.interrupt();
+    }
+
+
 
     private void dropMines(String cell) {
         Random random = new Random();
@@ -42,6 +52,12 @@ public class Game {
 
     public static List<String> displayedCells(){
         return displayedCells;
+    }
+
+    public static void clearInfo() {
+        mine().clear();
+        flags().clear();
+        displayedCells().clear();
     }
 }
 

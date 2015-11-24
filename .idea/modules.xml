@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MinesWeeper/MinesWeeper.iml" filepath="$PROJECT_DIR$/MinesWeeper/MinesWeeper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MinesWeeper_Swing_Framework/MinesWeeper_Swing_Framework.iml" filepath="$PROJECT_DIR$/MinesWeeper_Swing_Framework/MinesWeeper_Swing_Framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MinesWeeper_New/MinesWeeper_New.iml" filepath="$PROJECT_DIR$/MinesWeeper_New/MinesWeeper_New.iml" />
     </modules>
   </component>
 </project>

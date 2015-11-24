@@ -5,18 +5,21 @@ import static application.App.firstClick;
 import static application.App.camp;
 import static control.Game.*;
 
+
 public class LeftClickProcess implements Process{
     @Override
     public void run(String cell) {
-        if(firstClick) new Game().start(cell);
+        if(firstClick) new Game().startGame(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
         setDisplayed(cell);
         handleCellDisplay(cell);
     }
 
     private void handleCellDisplay(String cell) {
-        if(isMine(cell)) displayAllCamp();
-        else if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
+        if(isMine(cell)) {
+            endGame();
+            displayAllCamp();
+        }else if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
             else displayCell(cell);
     }
 
