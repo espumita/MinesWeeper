@@ -1,11 +1,12 @@
 package application;
 
 import control.*;
-import model.Difficulty;
+import model.*;
 import process.LeftClickProcess;
 import process.RightClickProcess;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,7 +17,7 @@ import java.util.stream.IntStream;
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, SwingCell> camp = new HashMap<>();
-    public static Difficulty difficulty = new Difficulty(16,16,40);
+    public static Difficulty difficulty = new MediumDifficulty();
     public static boolean firstClick = true;
 
     public static void main(String[] args) {
@@ -26,6 +27,7 @@ public class App extends JFrame {
     public App() throws HeadlessException {
         createCommands();
         deployUI();
+        pack();
     }
 
     private void createCommands() {
@@ -37,22 +39,53 @@ public class App extends JFrame {
     private void deployUI() {
         this.setTitle("Minesweeper");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(25*difficulty.getRows(),30*difficulty.getColumns()));
+        this.setMinimumSize(setApplicationDimension());
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setJMenuBar(menuBar());
         //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("images/icon.png")));
-        this.add(board());
+        this.add(mainPanel());
+        setContentPane(mainPanel());
+    }
+
+    private Dimension setApplicationDimension() {
+        return new Dimension(new Dimension(25*difficulty.getRows()+30,25*difficulty.getColumns()+30+80));
+    }
+
+    private JPanel mainPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        mainPanel.setBackground(Color.YELLOW);
+        mainPanel.add(topPanel(),BorderLayout.NORTH);
+        mainPanel.add(board(),BorderLayout.CENTER);
+        return mainPanel;
+    }
+
+    private JPanel topPanel() {
+        JPanel center = new JPanel();
+        center.setBackground(Color.cyan);
+        center.setPreferredSize(new Dimension(50,80));
+        center.add(chronometer());
+        return center;
     }
 
     private JPanel board() {
         JPanel board = new JPanel();
-        board.setLayout(new java.awt.GridLayout(difficulty.getRows(), difficulty.getColumns()));
         board.setBackground(Color.BLACK);
+        board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        board.setPreferredSize(new Dimension(difficulty.getRows()*25,difficulty.getColumns()*25));
+        board.setLayout(new GridLayout(difficulty.getRows(),difficulty.getColumns()));
         deployCells(board);
         return board;
-
     }
+
+    private JLabel chronometer() {
+        JLabel chronometer = new JLabel();
+        chronometer.setText("asd");
+        return chronometer;
+    }
+
 
     private void deployCells(JPanel board) {
         IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j))));
@@ -62,6 +95,7 @@ public class App extends JFrame {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
+        cell.setToolTipText(i+"_"+j);
         cell.setPreferredSize(new Dimension(25, 25));
         cell.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
         cell.addMouseListener(new MouseAdapter() {

@@ -1,25 +1,10 @@
 package model;
 
-public class Difficulty {
-    private int rows;
-    private int columns;
-    private int mines;
+public interface Difficulty {
 
-    public Difficulty(int rows, int columns, int mines) {
-        this.rows = rows;
-        this.columns = columns;
-        this.mines = mines;
-    }
+    int getRows();
 
-    public int getRows() {
-        return rows;
-    }
+    int getColumns();
 
-    public int getColumns() {
-        return columns;
-    }
-
-    public int getMines() {
-        return mines;
-    }
+    int getMines();
 }
