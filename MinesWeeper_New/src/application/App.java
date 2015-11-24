@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     public static Map<String, SwingCell> camp = new HashMap<>();
-    public static Difficulty difficulty = new HardDifficulty();
+    public static Difficulty difficulty = new MediumDifficulty();
     public static boolean firstClick = true;
     public GridBagConstraints gridBagConstraints = new GridBagConstraints();
     public static Map<String,JComponent> components = new HashMap<>();
@@ -59,7 +59,7 @@ public class App extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        mainPanel.setBackground(Color.YELLOW);
+        mainPanel.setBackground(Color.darkGray);
         mainPanel.add(topPanel(),BorderLayout.NORTH);
         mainPanel.add(board(),BorderLayout.CENTER);
         return mainPanel;
@@ -67,7 +67,7 @@ public class App extends JFrame {
 
     private JPanel topPanel() {
         JPanel infoPanel = new JPanel();
-        infoPanel.setBackground(Color.cyan);
+        infoPanel.setBackground(Color.darkGray);
         infoPanel.setPreferredSize(new Dimension(50,90));
         infoPanel.add(resetButton());
         infoPanel.add(chronometer());
@@ -85,7 +85,7 @@ public class App extends JFrame {
 
     private JPanel board() {
         JPanel board = new JPanel();
-        board.setBackground(Color.BLACK);
+        board.setBackground(Color.darkGray);
         board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         board.setPreferredSize(new Dimension(difficulty.getRows()*25+30,difficulty.getColumns()*25+30));
         gridBagConstraints.insets = new Insets(0,0,0,0);
@@ -110,7 +110,7 @@ public class App extends JFrame {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
-        cell.setToolTipText(i+"_"+j);
+        //cell.setToolTipText(i+"_"+j);
         gridBagConstraints.gridx = i;
         gridBagConstraints.gridy = j;
         cell.setPreferredSize(new Dimension(25,25));
