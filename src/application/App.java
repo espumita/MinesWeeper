@@ -46,7 +46,7 @@ public class App extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setJMenuBar(menuBar());
-        //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("images/icon.png")));
+        this.setIconImage(new ImageIcon("images/icon.png").getImage());
         this.add(mainPanel());
         setContentPane(mainPanel());
     }
