@@ -2,38 +2,58 @@ package process;
 
 import control.Game;
 
+import javax.swing.*;
+
 import static application.App.camp;
-import static application.App.difficulty;
-import static control.Game.flags;
+import static application.App.components;
+import static control.Game.flagsFirstLevel;
+import static control.Game.flagsSecondLevel;
+import static control.Game.remainingMarks;
 
 public class RightClickProcess implements Process{
     @Override
     public void run(String cell) {
         if(isDisplayed(cell)) return;
-        if(flags().contains(cell)) removeFlag(cell);
+        if(flagsFirstLevel.contains(cell)) secondLevelOfFlag(cell);
         else addFlag(cell);
     }
 
     private void addFlag(String cell) {
-        if(flags().size() >= difficulty.getMines()) return;
-        displayFlag(cell);
-        flags().add(cell);
+        displayFirstLevelFlag(cell);
+        flagsFirstLevel.add(cell);
+        ((JLabel) components.get("mines")).setText(Integer.toString(remainingMarks--));
+    }
+
+    private void secondLevelOfFlag(String cell) {
+        if(flagsSecondLevel.contains(cell)) removeFlag(cell);
+        else levelUp(cell);
     }
 
     private void removeFlag(String cell) {
+        flagsSecondLevel.remove(cell);
+        flagsFirstLevel.remove(cell);
+        ((JLabel) components.get("mines")).setText(Integer.toString(remainingMarks++));
         displayGround(cell);
-        flags().remove(cell);
+    }
+
+    private void levelUp(String cell) {
+        displaySecondLevelFlag(cell);
+        flagsSecondLevel.add(cell);
+    }
+
+    private void displaySecondLevelFlag(String cell) {
+        camp.get(cell).setFlag2Icon();
     }
 
     private void displayGround(String cell) {
         camp.get(cell).setCellGroundIcon();
     }
 
-    private void displayFlag(String cell) {
+    private void displayFirstLevelFlag(String cell) {
         camp.get(cell).setFlagIcon();
     }
 
     private boolean isDisplayed(String cell) {
-        return Game.displayedCells().contains(cell);
+        return Game.displayedCells.contains(cell);
     }
 }

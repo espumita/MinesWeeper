@@ -14,25 +14,27 @@ public class SwingCell extends JButton {
         return alertLevel;
     }
 
-    public void alert() { alertLevel++; }
-
-    public void setCellIcon() {
-        setIcon(new ImageIcon("images/"+alertLevel+"mine.png"));
+    public void alert() {
+        alertLevel++;
     }
 
-    public void setWrongMineIcon(){
+    public void setCellIcon() {
+        setIcon(new ImageIcon("images/" + alertLevel + "mine.png"));
+    }
+
+    public void setWrongMineIcon() {
         setIcon(new ImageIcon("images/badMine.png"));
     }
 
     public void setMineIcon() {
-       setIcon(new ImageIcon("images/mine.png"));
+        setIcon(new ImageIcon("images/mine.png"));
     }
 
     public void setCellStartIcon() {
         setIcon(new ImageIcon("images/0mine.png"));
     }
 
-    public void setCellGroundIcon(){
+    public void setCellGroundIcon() {
         setIcon(new ImageIcon("images/ground.png"));
     }
 
@@ -40,8 +42,11 @@ public class SwingCell extends JButton {
         setIcon(new ImageIcon("images/flag.png"));
     }
 
-    public void resetCell(){
-        alertLevel = 0;
-        setCellGroundIcon();
+    public void setFlag2Icon() {
+        setIcon(new ImageIcon("images/flag2.png"));
     }
+    public void resetCell() {
+        alertLevel = 0;
+    }
+
 }

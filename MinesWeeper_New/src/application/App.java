@@ -69,9 +69,19 @@ public class App extends JFrame {
         JPanel infoPanel = new JPanel();
         infoPanel.setBackground(Color.darkGray);
         infoPanel.setPreferredSize(new Dimension(50,90));
+        infoPanel.add(remainingMines());
         infoPanel.add(resetButton());
         infoPanel.add(chronometer());
         return infoPanel;
+    }
+
+    private JLabel remainingMines() {
+        JLabel mines = new JLabel();
+        mines.setBackground(Color.cyan);
+        mines.setOpaque(true);
+        mines.setText(Integer.toString(difficulty.getMines()));
+        components.put("mines",mines);
+        return mines;
     }
 
     private JButton resetButton() {
@@ -96,6 +106,8 @@ public class App extends JFrame {
 
     private JLabel chronometer() {
         JLabel chronometer = new JLabel();
+        chronometer.setBackground(Color.cyan);
+        chronometer.setOpaque(true);
         components.put("chronometer",chronometer);
         chronometer.setText("0");
         return chronometer;

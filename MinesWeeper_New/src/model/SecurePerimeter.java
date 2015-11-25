@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static application.App.camp;
-import static control.Game.flags;
+import static control.Game.flagsFirstLevel;
 import static control.Game.displayedCells;
 
 public class SecurePerimeter implements Perimeter {
@@ -14,7 +14,7 @@ public class SecurePerimeter implements Perimeter {
 
     @Override
     public List<String> get(String cell) {
-        if(flags().contains(cell)) return perimeter;
+        if(flagsFirstLevel.contains(cell)) return perimeter;
         secureProtocol(cell);
         perimeterLimits = cell.split("_");
         IntStream.range(perimeterStart(0),perimeterEnd(0)).forEach(i -> IntStream.range(perimeterStart(1),perimeterEnd(1)).forEach(j -> examineCell(i+"_"+j)));
@@ -38,7 +38,7 @@ public class SecurePerimeter implements Perimeter {
 
     private void secureProtocol(String cell) {
         camp.get(cell).setCellStartIcon();
-        displayedCells().add(cell);
+        displayedCells.add(cell);
     }
 
     private boolean isNotTheCenter(String cell) {
@@ -56,7 +56,7 @@ public class SecurePerimeter implements Perimeter {
 
 
     private boolean isSafe(String cell) {
-        return !displayedCells().contains(cell) && !flags().contains(cell);
+        return !displayedCells.contains(cell) && !flagsFirstLevel.contains(cell);
     }
 
 }

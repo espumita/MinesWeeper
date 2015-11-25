@@ -19,7 +19,7 @@ public class SetSecurePerimeterProcess implements Process{
 
     private void displayCell(String cell) {
         camp.get(cell).setCellIcon();
-        displayedCells().add(cell);
+        displayedCells.add(cell);
     }
 
 }

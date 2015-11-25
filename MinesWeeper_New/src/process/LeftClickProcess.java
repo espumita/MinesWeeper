@@ -24,19 +24,19 @@ public class LeftClickProcess implements Process{
     }
 
     private void setDisplayed(String cell) {
-        displayedCells().add(cell);
+        displayedCells.add(cell);
     }
 
     private boolean isFlag(String cell) {
-        return flags().contains(cell);
+        return flagsFirstLevel.contains(cell);
     }
 
     private boolean isMine(String cell) {
-        return mine().contains(cell);
+        return mines.contains(cell);
     }
 
     private boolean isDisplayed(String cell) {
-        return displayedCells().contains(cell);
+        return displayedCells.contains(cell);
     }
 
     private void displayAllCamp() {

@@ -8,15 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static application.App.camp;
 import static application.App.started;
 import static application.App.difficulty;
 import static application.App.chronometer;
 
 public class Game {
-    private static List<String> mines = new ArrayList<>();
-    private static List<String> flags = new ArrayList<>();
-    private static List<String> displayedCells = new ArrayList<>();
-
+    public static List<String> mines = new ArrayList<>();
+    public static List<String> flagsFirstLevel = new ArrayList<>();
+    public static List<String> flagsSecondLevel = new ArrayList<>();
+    public static List<String> displayedCells = new ArrayList<>();
+    public static int remainingMarks =  difficulty.getMines();
     public void startGame(String cell) {
         started(true);
         dropMines(cell);
@@ -45,22 +47,16 @@ public class Game {
         new SetAlertPerimeterProcess().run(mine);
     }
 
-    public static List<String>  mine(){
-        return mines;
-    }
 
-    public static List<String>  flags(){
-        return flags;
-    }
-
-    public static List<String> displayedCells(){
-        return displayedCells;
-    }
-
-    public static void clearInfo() {
-        mine().clear();
-        flags().clear();
-        displayedCells().clear();
+    public static void restartGameInfo() {
+        flagsFirstLevel.forEach(flag -> camp.get(flag).setCellGroundIcon());
+        flagsFirstLevel.clear();
+        flagsSecondLevel.forEach(cell -> camp.get(cell).setCellGroundIcon());
+        flagsSecondLevel.clear();
+        displayedCells.forEach(cell -> camp.get(cell).setCellGroundIcon());
+        displayedCells.clear();
+        mines.clear();
+        remainingMarks = difficulty.getMines();
     }
 }
 
