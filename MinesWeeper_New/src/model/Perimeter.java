@@ -9,5 +9,5 @@ public interface Perimeter {
 
     int perimeterStart(int position);
 
-    void markCell(String cell);
+    void examineCell(String cell);
 }

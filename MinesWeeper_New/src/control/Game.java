@@ -1,5 +1,6 @@
 package control;
 
+import model.StartPerimeter;
 import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
 
@@ -31,11 +32,13 @@ public class Game {
 
     private void dropMines(String cell) {
         Random random = new Random();
+        List<String> startPerimeter = new StartPerimeter().get(cell);
         while(mines.size() < difficulty.getMines()){
             String mine = random.nextInt(difficulty.getRows())+"_"+random.nextInt(difficulty.getColumns());
-            if(!mines.contains(mine) && !mine.equals(cell)) plantMine(mine);
+            if(!startPerimeter.contains(mine) && !mines.contains(mine)) plantMine(mine);
         }
     }
+
 
     private void plantMine(String mine) {
         mines.add(mine);

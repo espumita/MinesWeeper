@@ -13,7 +13,7 @@ public class AlertPerimeter implements Perimeter {
     @Override
     public List<String> get(String cell) {
         perimeterLimits = cell.split("_");
-        IntStream.range(perimeterStart(0), perimeterEnd(0)).forEach(i -> IntStream.range(perimeterStart(1), perimeterEnd(1)).forEach(j -> markCell(i+"_"+j)));
+        IntStream.range(perimeterStart(0), perimeterEnd(0)).forEach(i -> IntStream.range(perimeterStart(1), perimeterEnd(1)).forEach(j -> examineCell(i+"_"+j)));
         return  perimeter;
     }
 
@@ -28,7 +28,7 @@ public class AlertPerimeter implements Perimeter {
     }
 
     @Override
-    public void markCell(String cell) {
+    public void examineCell(String cell) {
         if( isNotTheCenter(cell) && exists(cell)) perimeter.add(cell);
     }
 
