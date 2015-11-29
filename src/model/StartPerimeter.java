@@ -34,6 +34,6 @@ public class StartPerimeter implements Perimeter {
 
     }
     private boolean exists(String cell) {
-        return camp.containsKey(cell);
+        return camp().containsKey(cell);
     }
 }

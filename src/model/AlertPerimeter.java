@@ -41,6 +41,6 @@ public class AlertPerimeter implements Perimeter {
     }
 
     private boolean exists(String cell) {
-        return camp.containsKey(cell);
+        return camp().containsKey(cell);
     }
 }

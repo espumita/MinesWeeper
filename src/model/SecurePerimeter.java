@@ -14,7 +14,7 @@ public class SecurePerimeter implements Perimeter {
 
     @Override
     public List<String> get(String cell) {
-        if(flagsFirstLevel.contains(cell)) return perimeter;
+        if(flagsFirstLevel().contains(cell)) return perimeter;
         secureProtocol(cell);
         perimeterLimits = cell.split("_");
         IntStream.range(perimeterStart(0),perimeterEnd(0)).forEach(i -> IntStream.range(perimeterStart(1),perimeterEnd(1)).forEach(j -> examineCell(i+"_"+j)));
@@ -37,8 +37,8 @@ public class SecurePerimeter implements Perimeter {
     }
 
     private void secureProtocol(String cell) {
-        camp.get(cell).setCellStartIcon();
-        displayedCells.add(cell);
+        camp().get(cell).setCellStartIcon();
+        displayedCells().add(cell);
     }
 
     private boolean isNotTheCenter(String cell) {
@@ -51,12 +51,12 @@ public class SecurePerimeter implements Perimeter {
 
 
     private boolean exists(String cell) {
-        return camp.containsKey(cell);
+        return camp().containsKey(cell);
     }
 
 
     private boolean isSafe(String cell) {
-        return !displayedCells.contains(cell) && !flagsFirstLevel.contains(cell);
+        return !displayedCells().contains(cell) && !flagsFirstLevel().contains(cell);
     }
 
 }

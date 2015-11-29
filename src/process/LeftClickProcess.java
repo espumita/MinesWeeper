@@ -9,7 +9,7 @@ import static control.Game.*;
 public class LeftClickProcess implements Process{
     @Override
     public void run(String cell) {
-        if(firstClick) new Game().startGame(cell);
+        if(firstClick()) new Game().startGame(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
         setDisplayed(cell);
         handleCellDisplay(cell);
@@ -17,30 +17,30 @@ public class LeftClickProcess implements Process{
 
     private void handleCellDisplay(String cell) {
         if(isMine(cell)) {
-            endGame();
+            stopChronometer();
             displayAllCamp();
-        }else if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
+        }else if(camp().get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
             else displayCell(cell);
     }
 
     private void setDisplayed(String cell) {
-        displayedCells.add(cell);
+        displayedCells().add(cell);
     }
 
     private boolean isFlag(String cell) {
-        return flagsFirstLevel.contains(cell);
+        return flagsFirstLevel().contains(cell);
     }
 
     private boolean isMine(String cell) {
-        return mines.contains(cell);
+        return mines().contains(cell);
     }
 
     private boolean isDisplayed(String cell) {
-        return displayedCells.contains(cell);
+        return displayedCells().contains(cell);
     }
 
     private void displayAllCamp() {
-        camp.forEach((s, cell) -> display(s));
+        camp().forEach((s, cell) -> display(s));
     }
 
     private void display(String cell) {
@@ -51,14 +51,14 @@ public class LeftClickProcess implements Process{
     }
 
     private void displayCell(String cell) {
-        camp.get(cell).setCellIcon();
+        camp().get(cell).setCellIcon();
     }
 
     private void displayMine(String cell) {
-        camp.get(cell).setMineIcon();
+        camp().get(cell).setMineIcon();
     }
 
     private void displayWrongMine(String cell) {
-        camp.get(cell).setWrongMineIcon();
+        camp().get(cell).setWrongMineIcon();
     }
 }

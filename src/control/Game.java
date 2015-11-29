@@ -1,5 +1,7 @@
 package control;
 
+import model.Difficulty;
+import model.MediumDifficulty;
 import model.StartPerimeter;
 import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
@@ -8,55 +10,90 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static application.App.camp;
-import static application.App.started;
-import static application.App.difficulty;
-import static application.App.chronometer;
+import static application.App.*;
 
 public class Game {
-    public static List<String> mines = new ArrayList<>();
-    public static List<String> flagsFirstLevel = new ArrayList<>();
-    public static List<String> flagsSecondLevel = new ArrayList<>();
-    public static List<String> displayedCells = new ArrayList<>();
-    public static int remainingMarks =  difficulty.getMines();
+    private static Difficulty difficulty = new MediumDifficulty();
+    private static List<String> mines = new ArrayList<>();
+    private static List<String> flagsFirstLevel = new ArrayList<>();
+    private static List<String> flagsSecondLevel = new ArrayList<>();
+    private static List<String> displayedCells = new ArrayList<>();
+    private static int remainingMarks =  maxMines();
+
     public void startGame(String cell) {
-        started(true);
+        firstClick(false);
         dropMines(cell);
-        chronometer = new ChronometerThread();
-        chronometer.start();
+        startChronometer();
     }
 
-    public static void endGame(){
-        chronometer.interrupt();
+    private void startChronometer() {
+        chronometer( new ChronometerThread());
+        chronometer().start();
     }
 
-
+    public static void stopChronometer(){
+        chronometer().interrupt();
+    }
 
     private void dropMines(String cell) {
         Random random = new Random();
         List<String> startPerimeter = new StartPerimeter().get(cell);
-        while(mines.size() < difficulty.getMines()){
-            String mine = random.nextInt(difficulty.getRows())+"_"+random.nextInt(difficulty.getColumns());
+        while(mines.size() < maxMines()){
+            String mine = random.nextInt(rows())+"_"+random.nextInt(columns());
             if(!startPerimeter.contains(mine) && !mines.contains(mine)) plantMine(mine);
         }
     }
-
 
     private void plantMine(String mine) {
         mines.add(mine);
         new SetAlertPerimeterProcess().run(mine);
     }
 
-
     public static void restartGameInfo() {
-        flagsFirstLevel.forEach(flag -> camp.get(flag).setCellGroundIcon());
+        flagsFirstLevel.forEach(flag -> camp().get(flag).setCellGroundIcon());
         flagsFirstLevel.clear();
-        flagsSecondLevel.forEach(cell -> camp.get(cell).setCellGroundIcon());
+        flagsSecondLevel.forEach(cell -> camp().get(cell).setCellGroundIcon());
         flagsSecondLevel.clear();
-        displayedCells.forEach(cell -> camp.get(cell).setCellGroundIcon());
+        displayedCells.forEach(cell -> camp().get(cell).setCellGroundIcon());
         displayedCells.clear();
         mines.clear();
-        remainingMarks = difficulty.getMines();
+        remainingMarks = maxMines();
+    }
+
+    public static int maxMines(){
+        return difficulty.getMines();
+    }
+
+    public static int rows(){
+        return difficulty.getRows();
+    }
+
+    public static int columns(){
+        return  difficulty.getColumns();
+    }
+
+    public static int subMark(){
+        return remainingMarks--;
+    }
+
+    public static  int addMark(){
+        return remainingMarks++;
+    }
+
+    public static List<String> mines(){
+        return  mines;
+    }
+
+    public static List<String> flagsFirstLevel(){
+        return  flagsFirstLevel;
+    }
+
+    public static List<String> flagsSecondLevel(){
+        return  flagsSecondLevel;
+    }
+
+    public static List<String> displayedCells(){
+        return  displayedCells;
     }
 }
 

@@ -1,7 +1,6 @@
 package application;
 
 import control.*;
-import model.*;
 import process.ChronometerThread;
 import process.LeftClickProcess;
 import process.RightClickProcess;
@@ -16,12 +15,11 @@ import java.util.stream.IntStream;
 
 public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
-    public static Map<String, SwingCell> camp = new HashMap<>();
-    public static Difficulty difficulty = new MediumDifficulty();
-    public static boolean firstClick = true;
-    public GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    public static Map<String,JComponent> components = new HashMap<>();
-    public static ChronometerThread chronometer;
+    private static Map<String, SwingCell> camp = new HashMap<>();
+    private static boolean firstClick = true;
+    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private static Map<String,JComponent> components = new HashMap<>();
+    private static ChronometerThread chronometer;
 
     public static void main(String[] args) {
         new App().setVisible(true);
@@ -52,7 +50,7 @@ public class App extends JFrame {
     }
 
     private Dimension setApplicationDimension() {
-        return new Dimension(new Dimension(25*difficulty.getRows()+30,25*difficulty.getColumns()+30+80));
+        return new Dimension(new Dimension(25*16+30,25*16+30+80));
     }
 
     private JPanel mainPanel() {
@@ -71,7 +69,7 @@ public class App extends JFrame {
         infoPanel.setPreferredSize(new Dimension(50,90));
         infoPanel.add(remainingMines());
         infoPanel.add(resetButton());
-        infoPanel.add(chronometer());
+        infoPanel.add(chronometerPanel());
         return infoPanel;
     }
 
@@ -79,7 +77,7 @@ public class App extends JFrame {
         JLabel mines = new JLabel();
         mines.setBackground(Color.cyan);
         mines.setOpaque(true);
-        mines.setText(Integer.toString(difficulty.getMines()));
+        mines.setText(Integer.toString(40));
         components.put("mines",mines);
         return mines;
     }
@@ -97,14 +95,14 @@ public class App extends JFrame {
         JPanel board = new JPanel();
         board.setBackground(Color.darkGray);
         board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        board.setPreferredSize(new Dimension(difficulty.getRows()*25+30,difficulty.getColumns()*25+30));
+        board.setPreferredSize(new Dimension(16*25+30,16*25+30));
         gridBagConstraints.insets = new Insets(0,0,0,0);
         board.setLayout(new GridBagLayout());
         deployCells(board);
         return board;
     }
 
-    private JLabel chronometer() {
+    private JLabel chronometerPanel() {
         JLabel chronometer = new JLabel();
         chronometer.setBackground(Color.cyan);
         chronometer.setOpaque(true);
@@ -115,7 +113,7 @@ public class App extends JFrame {
 
 
     private void deployCells(JPanel board) {
-        IntStream.range(0,difficulty.getRows()).forEach(i -> IntStream.range(0,difficulty.getColumns()).forEach(j -> board.add(cell(i,j),gridBagConstraints)));
+        IntStream.range(0,16).forEach(i -> IntStream.range(0,16).forEach(j -> board.add(cell(i,j),gridBagConstraints)));
     }
 
     private JButton cell(int i, int j) {
@@ -161,7 +159,28 @@ public class App extends JFrame {
         return operation;
     }
 
-    public static void started(boolean status){
-        firstClick = !status;
+    public static void firstClick(boolean status){
+        firstClick = status;
     }
+
+    public static boolean firstClick(){
+        return firstClick;
+    }
+
+    public static  Map<String, SwingCell> camp(){
+        return camp;
+    }
+
+    public static  Map<String, JComponent> components(){
+        return components;
+    }
+
+    public static ChronometerThread chronometer(){
+        return chronometer;
+    }
+
+    public static void chronometer(ChronometerThread newChronometer){
+        chronometer = newChronometer;
+    }
+
 }

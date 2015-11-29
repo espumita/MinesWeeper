@@ -13,13 +13,13 @@ public class SetSecurePerimeterProcess implements Process{
     }
 
     private void secure(String cell) {
-        if(camp.get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
+        if(camp().get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
         else displayCell(cell);
     }
 
     private void displayCell(String cell) {
-        camp.get(cell).setCellIcon();
-        displayedCells.add(cell);
+        camp().get(cell).setCellIcon();
+        displayedCells().add(cell);
     }
 
 }
