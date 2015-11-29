@@ -6,9 +6,11 @@ import model.CellPerimeter;
 import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
 
+import javax.jnlp.IntegrationService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import static application.App.*;
 
@@ -37,11 +39,19 @@ public class GameControl {
 
     private void dropMines(String cell) {
         Random random = new Random();
+        List<String> startPerimeter = startPerimeter(cell);
+        while(mines.size() < maxMines()) checkAvailabilityArea(random, startPerimeter);
+    }
+
+    private List<String> startPerimeter(String cell) {
         List<String> startPerimeter = new CellPerimeter().get(cell);
-        while(mines.size() < maxMines()){
-            String mine = random.nextInt(rows())+"_"+random.nextInt(columns());
-            if(!startPerimeter.contains(mine) && !mine.equals(cell) && !mines.contains(mine)) plantMine(mine);
-        }
+        startPerimeter.add(cell);
+        return startPerimeter;
+    }
+
+    private void checkAvailabilityArea(Random random, List<String> startPerimeter) {
+        String mine = random.nextInt(rows())+"_"+random.nextInt(columns());
+        if(!startPerimeter.contains(mine) && !mines.contains(mine)) plantMine(mine);
     }
 
     private void plantMine(String mine) {
@@ -50,14 +60,20 @@ public class GameControl {
     }
 
     public static void restartGameInfo() {
-        flagsFirstLevel.forEach(flag -> camp().get(flag).setCellGroundIcon());
-        flagsFirstLevel.clear();
-        flagsSecondLevel.forEach(cell -> camp().get(cell).setCellGroundIcon());
-        flagsSecondLevel.clear();
-        displayedCells.forEach(cell -> camp().get(cell).setCellGroundIcon());
-        displayedCells.clear();
+        restartFlags();
+        restartList(displayedCells);
         mines.clear();
+    }
+
+    private static void restartFlags() {
+        restartList(flagsFirstLevel);
+        restartList(flagsSecondLevel);
         remainingMarks = maxMines();
+    }
+
+    private static void restartList(List<String> list) {
+        list.forEach(flag -> camp().get(flag).setCellGroundIcon());
+        list.clear();
     }
 
     public static int maxMines(){

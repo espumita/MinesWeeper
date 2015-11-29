@@ -30,10 +30,6 @@ public class SwingCell extends JButton {
         setIcon(new ImageIcon("images/mine.png"));
     }
 
-    public void setCellStartIcon() {
-        setIcon(new ImageIcon("images/0mine.png"));
-    }
-
     public void setCellGroundIcon() {
         setIcon(new ImageIcon("images/ground.png"));
     }

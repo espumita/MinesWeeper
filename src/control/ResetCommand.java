@@ -13,9 +13,13 @@ public class ResetCommand implements Command {
         restartGameInfo();
         ((JLabel) components().get("mines")).setText(Integer.toString(maxMines()));
         if(firstClick()) return;
-        chronometer().interrupt();
-        ((JLabel) components().get("chronometer")).setText("0");
+        restartChronometer();
         camp().forEach((s, cell) -> cell.resetCell());
         firstClick(true);
+    }
+
+    private void restartChronometer() {
+        chronometer().interrupt();
+        ((JLabel) components().get("chronometer")).setText("0");
     }
 }

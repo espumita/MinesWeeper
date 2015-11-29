@@ -2,7 +2,6 @@ package model;
 
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ public class CellPerimeter implements Perimeter {
     @Override
     public List<String> get(String cell) {
         perimeterLimits = Arrays.asList(cell.split("_"));
-        return  (Arrays.asList(adjacentCell(-1,-1), adjacentCell(-1,0), adjacentCell(-1,+1), adjacentCell(0,+1), adjacentCell(0,-1), adjacentCell(-1,+1), adjacentCell(1,0), adjacentCell(1,1))).stream().filter(c -> exist(c)).collect(Collectors.toList());
+        return  (Arrays.asList(adjacentCell(-1,-1), adjacentCell(-1,0), adjacentCell(-1,1), adjacentCell(0,1), adjacentCell(0,-1), adjacentCell(1,-1), adjacentCell(1,0), adjacentCell(1,1))).stream().filter(c -> exist(c)).collect(Collectors.toList());
     }
 
     private boolean exist(String cell) {
