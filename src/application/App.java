@@ -141,7 +141,7 @@ public class App extends JFrame {
     }
 
     private JMenu gameMenu() {
-        JMenu menu = new JMenu("Game");
+        JMenu menu = new JMenu("GameControl");
         menu.add(difficultyOperation());
         menu.add(exitOperation());
         return menu;

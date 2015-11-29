@@ -4,10 +4,4 @@ import java.util.List;
 
 public interface Perimeter {
     List<String> get(String cell);
-
-    int perimeterEnd(int position);
-
-    int perimeterStart(int position);
-
-    void examineCell(String cell);
 }

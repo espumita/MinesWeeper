@@ -1,12 +1,10 @@
 package process;
 
-import control.Game;
-
 import javax.swing.*;
 
 import static application.App.camp;
 import static application.App.components;
-import static control.Game.*;
+import static control.GameControl.*;
 
 public class RightClickProcess implements Process{
     @Override
@@ -19,7 +17,7 @@ public class RightClickProcess implements Process{
     private void addFlag(String cell) {
         displayFirstLevelFlag(cell);
         flagsFirstLevel().add(cell);
-        ((JLabel) components().get("mines")).setText(Integer.toString(addMark()));
+        ((JLabel) components().get("mines")).setText(Integer.toString(subMark()));
     }
 
 
@@ -31,7 +29,7 @@ public class RightClickProcess implements Process{
     private void removeFlag(String cell) {
         flagsSecondLevel().remove(cell);
         flagsFirstLevel().remove(cell);
-        ((JLabel) components().get("mines")).setText(Integer.toString(subMark()));
+        ((JLabel) components().get("mines")).setText(Integer.toString(addMark()));
         displayGround(cell);
     }
 
@@ -53,7 +51,7 @@ public class RightClickProcess implements Process{
     }
 
     private boolean isDisplayed(String cell) {
-        return Game.displayedCells().contains(cell);
+        return displayedCells().contains(cell);
     }
 
 }

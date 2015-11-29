@@ -45,6 +45,7 @@ public class SwingCell extends JButton {
     public void setFlag2Icon() {
         setIcon(new ImageIcon("images/flag2.png"));
     }
+
     public void resetCell() {
         alertLevel = 0;
     }

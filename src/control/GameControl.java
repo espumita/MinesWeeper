@@ -2,7 +2,7 @@ package control;
 
 import model.Difficulty;
 import model.MediumDifficulty;
-import model.StartPerimeter;
+import model.CellPerimeter;
 import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
 
@@ -12,7 +12,7 @@ import java.util.Random;
 
 import static application.App.*;
 
-public class Game {
+public class GameControl {
     private static Difficulty difficulty = new MediumDifficulty();
     private static List<String> mines = new ArrayList<>();
     private static List<String> flagsFirstLevel = new ArrayList<>();
@@ -37,10 +37,10 @@ public class Game {
 
     private void dropMines(String cell) {
         Random random = new Random();
-        List<String> startPerimeter = new StartPerimeter().get(cell);
+        List<String> startPerimeter = new CellPerimeter().get(cell);
         while(mines.size() < maxMines()){
             String mine = random.nextInt(rows())+"_"+random.nextInt(columns());
-            if(!startPerimeter.contains(mine) && !mines.contains(mine)) plantMine(mine);
+            if(!startPerimeter.contains(mine) && !mine.equals(cell) && !mines.contains(mine)) plantMine(mine);
         }
     }
 
@@ -73,11 +73,13 @@ public class Game {
     }
 
     public static int subMark(){
-        return remainingMarks--;
+        remainingMarks--;
+        return remainingMarks;
     }
 
     public static  int addMark(){
-        return remainingMarks++;
+        remainingMarks++;
+        return remainingMarks;
     }
 
     public static List<String> mines(){

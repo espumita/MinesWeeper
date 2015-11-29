@@ -1,15 +1,16 @@
 package process;
 
-import control.Game;
+import control.GameControl;
+
 import static application.App.firstClick;
 import static application.App.camp;
-import static control.Game.*;
+import static control.GameControl.*;
 
 
 public class LeftClickProcess implements Process{
     @Override
     public void run(String cell) {
-        if(firstClick()) new Game().startGame(cell);
+        if(firstClick()) new GameControl().startGame(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
         setDisplayed(cell);
         handleCellDisplay(cell);
