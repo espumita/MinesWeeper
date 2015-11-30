@@ -52,6 +52,58 @@ public class App extends JFrame {
         setContentPane(mainPanel());
     }
 
+    private JMenuBar menuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(gameMenu());
+        return menuBar;
+    }
+
+    private JMenu gameMenu() {
+        JMenu menu = new JMenu("Game");
+        menu.add(changeDifficultyOperation());
+        menu.add(exitOperation());
+        return menu;
+    }
+
+    private JMenu changeDifficultyOperation() {
+        JMenu operation = new JMenu("Difficulty");
+        operation.add(easyMenu());
+        operation.add(mediumMenu());
+        operation.add(hardMenu());
+        operation.add(customMenu());
+        return operation;
+    }
+
+    private JMenuItem customMenu() {
+        JMenuItem custom = new JMenuItem("Custom");
+        custom.addActionListener(e -> ((DifficultyCommand) commands.get("Custom")).execute(this));
+        return custom;
+    }
+
+    private JMenuItem hardMenu() {
+        JMenuItem hard = new JMenuItem("Hard");
+        hard.addActionListener(e -> ((DifficultyCommand) commands.get("Hard")).execute(this));
+        return hard;
+    }
+
+    private JMenuItem mediumMenu() {
+        JMenuItem medium = new JMenuItem("Medium");
+        medium.addActionListener(e -> ((DifficultyCommand) commands.get("Medium")).execute(this));
+        return medium;
+    }
+
+    private JMenuItem easyMenu() {
+        JMenuItem easy = new JMenuItem("Easy");
+        easy.addActionListener(e -> ((DifficultyCommand) commands.get("Easy")).execute(this));
+        return easy;
+    }
+
+    private JMenuItem exitOperation() {
+        JMenuItem operation = new JMenuItem("Exit");
+        operation.addActionListener(e -> ((OperationCommand) commands.get("Exit")).execute());
+        return operation;
+    }
+
 
     private JPanel mainPanel() {
         JPanel mainPanel = new JPanel();
@@ -121,7 +173,6 @@ public class App extends JFrame {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
-        cell.setToolTipText(i+"_"+j);
         gridBagConstraints.gridx = j;
         gridBagConstraints.gridy = i;
         cell.setPreferredSize(new Dimension(25,25));
@@ -133,58 +184,6 @@ public class App extends JFrame {
             }
         });
         return cell;
-    }
-
-    private JMenuBar menuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(gameMenu());
-        return menuBar;        
-    }
-
-    private JMenu gameMenu() {
-        JMenu menu = new JMenu("GameControl");
-        menu.add(changeDifficultyOperation());
-        menu.add(exitOperation());
-        return menu;
-    }
-
-    private JMenu changeDifficultyOperation() {
-        JMenu operation = new JMenu("Difficulty");
-        operation.add(easyMenu());
-        operation.add(mediumMenu());
-        operation.add(hardMenu());
-        operation.add(customMenu());
-        return operation;
-    }
-
-    private JMenuItem customMenu() {
-        JMenuItem custom = new JMenuItem("Custom");
-        custom.addActionListener(e -> ((DifficultyCommand) commands.get("Custom")).execute(this));
-        return custom;
-    }
-
-    private JMenuItem hardMenu() {
-        JMenuItem hard = new JMenuItem("Hard");
-        hard.addActionListener(e -> ((DifficultyCommand) commands.get("Hard")).execute(this));
-        return hard;
-    }
-
-    private JMenuItem mediumMenu() {
-        JMenuItem medium = new JMenuItem("Medium");
-        medium.addActionListener(e -> ((DifficultyCommand) commands.get("Medium")).execute(this));
-        return medium;
-    }
-
-    private JMenuItem easyMenu() {
-        JMenuItem easy = new JMenuItem("Easy");
-        easy.addActionListener(e -> ((DifficultyCommand) commands.get("Easy")).execute(this));
-        return easy;
-    }
-
-    private JMenuItem exitOperation() {
-        JMenuItem operation = new JMenuItem("Exit");
-        operation.addActionListener(e -> ((OperationCommand) commands.get("Exit")).execute());
-        return operation;
     }
 
     public static void firstClick(boolean status){
@@ -218,4 +217,5 @@ public class App extends JFrame {
     public static void boardResize(int height,int width) {
         components.get("board").setMinimumSize(new Dimension(25*height,25*width));
     }
+
 }

@@ -6,11 +6,10 @@ import model.CellPerimeter;
 import process.ChronometerThread;
 import process.SetAlertPerimeterProcess;
 
-import javax.jnlp.IntegrationService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
+
 
 import static application.App.*;
 
