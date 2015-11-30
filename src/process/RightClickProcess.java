@@ -1,6 +1,7 @@
 package process;
 
-import javax.swing.*;
+
+import application.SwingRemainingMines;
 
 import static application.App.camp;
 import static application.App.components;
@@ -17,7 +18,7 @@ public class RightClickProcess implements Process{
     private void addFlag(String cell) {
         displayFirstLevelFlag(cell);
         flagsFirstLevel().add(cell);
-        ((JLabel) components().get("mines")).setText(Integer.toString(subMark()));
+        ((SwingRemainingMines)components().get("mines")).setRemainingMines(subMark());
     }
 
 
@@ -29,7 +30,7 @@ public class RightClickProcess implements Process{
     private void removeFlag(String cell) {
         flagsSecondLevel().remove(cell);
         flagsFirstLevel().remove(cell);
-        ((JLabel) components().get("mines")).setText(Integer.toString(addMark()));
+        ((SwingRemainingMines) components().get("mines")).setRemainingMines(addMark());
         displayGround(cell);
     }
 

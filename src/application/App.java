@@ -17,7 +17,7 @@ public class App extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     private static Map<String, SwingCell> camp = new HashMap<>();
     private static boolean firstClick = true;
-    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private static GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private static Map<String,JComponent> components = new HashMap<>();
     private static ChronometerThread chronometer;
 
@@ -32,7 +32,10 @@ public class App extends JFrame {
     }
 
     private void createCommands() {
-        commands.put("Difficult", new DifficultyCommand());
+        commands.put("Easy", new EasyDifficultyCommand());
+        commands.put("Medium", new MediumDifficultyCommand());
+        commands.put("Hard", new HardDifficultyCommand());
+        commands.put("Custom", new CustomDifficultyCommand());
         commands.put("Reset", new ResetCommand());
         commands.put("Exit", new ExitCommand());
     }
@@ -40,7 +43,7 @@ public class App extends JFrame {
     private void deployUI() {
         this.setTitle("Minesweeper");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setMinimumSize(setApplicationDimension());
+        applicationResize(this,16,16);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setJMenuBar(menuBar());
@@ -49,9 +52,6 @@ public class App extends JFrame {
         setContentPane(mainPanel());
     }
 
-    private Dimension setApplicationDimension() {
-        return new Dimension(new Dimension(25*16+30,25*16+30+80));
-    }
 
     private JPanel mainPanel() {
         JPanel mainPanel = new JPanel();
@@ -74,10 +74,10 @@ public class App extends JFrame {
     }
 
     private JLabel remainingMines() {
-        JLabel mines = new JLabel();
+        SwingRemainingMines mines = new SwingRemainingMines();
         mines.setBackground(Color.cyan);
         mines.setOpaque(true);
-        mines.setText(Integer.toString(40));
+        mines.setRemainingMines(40);
         components.put("mines",mines);
         return mines;
     }
@@ -86,7 +86,7 @@ public class App extends JFrame {
         JButton reset = new JButton();
         reset.setIcon(new ImageIcon("images/reset.png"));
         reset.setPreferredSize(new Dimension(75,75));
-        reset.addActionListener(e -> commands.get("Reset").execute());
+        reset.addActionListener(e -> ((OperationCommand) commands.get("Reset")).execute());
         return reset;
 
     }
@@ -95,34 +95,35 @@ public class App extends JFrame {
         JPanel board = new JPanel();
         board.setBackground(Color.darkGray);
         board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        board.setPreferredSize(new Dimension(16*25+30,16*25+30));
+        components.put("board",board);
+        boardResize(16,16);
         gridBagConstraints.insets = new Insets(0,0,0,0);
         board.setLayout(new GridBagLayout());
-        deployCells(board);
+        deployCells(board,16,16);
         return board;
     }
 
     private JLabel chronometerPanel() {
-        JLabel chronometer = new JLabel();
+        SwingChronometer chronometer = new SwingChronometer();
         chronometer.setBackground(Color.cyan);
         chronometer.setOpaque(true);
         components.put("chronometer",chronometer);
-        chronometer.setText("0");
+        chronometer.resetTime();
         return chronometer;
     }
 
 
-    private void deployCells(JPanel board) {
-        IntStream.range(0,16).forEach(i -> IntStream.range(0,16).forEach(j -> board.add(cell(i,j),gridBagConstraints)));
+    public static void deployCells(JPanel board,int i,int j) {
+        IntStream.range(0,i).forEach(k -> IntStream.range(0,j).forEach(l -> board.add(cell(k,l),gridBagConstraints)));
     }
 
-    private JButton cell(int i, int j) {
+    private static JButton cell(int i, int j) {
         JButton cell = new SwingCell();
         camp.put(i+"_"+j, (SwingCell) cell);
         cell.setName(i+"_"+j);
-        //cell.setToolTipText(i+"_"+j);
-        gridBagConstraints.gridx = i;
-        gridBagConstraints.gridy = j;
+        cell.setToolTipText(i+"_"+j);
+        gridBagConstraints.gridx = j;
+        gridBagConstraints.gridy = i;
         cell.setPreferredSize(new Dimension(25,25));
         cell.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
         cell.addMouseListener(new MouseAdapter() {
@@ -142,20 +143,47 @@ public class App extends JFrame {
 
     private JMenu gameMenu() {
         JMenu menu = new JMenu("GameControl");
-        menu.add(difficultyOperation());
+        menu.add(changeDifficultyOperation());
         menu.add(exitOperation());
         return menu;
     }
 
-    private JMenuItem difficultyOperation() {
-        JMenuItem operation = new JMenuItem("Difficulty");
-        operation.addActionListener(e -> commands.get("Difficult").execute());
+    private JMenu changeDifficultyOperation() {
+        JMenu operation = new JMenu("Difficulty");
+        operation.add(easyMenu());
+        operation.add(mediumMenu());
+        operation.add(hardMenu());
+        operation.add(customMenu());
         return operation;
+    }
+
+    private JMenuItem customMenu() {
+        JMenuItem custom = new JMenuItem("Custom");
+        custom.addActionListener(e -> ((DifficultyCommand) commands.get("Custom")).execute(this));
+        return custom;
+    }
+
+    private JMenuItem hardMenu() {
+        JMenuItem hard = new JMenuItem("Hard");
+        hard.addActionListener(e -> ((DifficultyCommand) commands.get("Hard")).execute(this));
+        return hard;
+    }
+
+    private JMenuItem mediumMenu() {
+        JMenuItem medium = new JMenuItem("Medium");
+        medium.addActionListener(e -> ((DifficultyCommand) commands.get("Medium")).execute(this));
+        return medium;
+    }
+
+    private JMenuItem easyMenu() {
+        JMenuItem easy = new JMenuItem("Easy");
+        easy.addActionListener(e -> ((DifficultyCommand) commands.get("Easy")).execute(this));
+        return easy;
     }
 
     private JMenuItem exitOperation() {
         JMenuItem operation = new JMenuItem("Exit");
-        operation.addActionListener(e -> commands.get("Exit").execute());
+        operation.addActionListener(e -> ((OperationCommand) commands.get("Exit")).execute());
         return operation;
     }
 
@@ -183,4 +211,11 @@ public class App extends JFrame {
         chronometer = newChronometer;
     }
 
+    public static void applicationResize(JFrame frame, int height, int width){
+        frame.setMinimumSize(new Dimension(25*height,25*width+90));
+    }
+
+    public static void boardResize(int height,int width) {
+        components.get("board").setMinimumSize(new Dimension(25*height,25*width));
+    }
 }

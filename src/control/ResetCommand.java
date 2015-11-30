@@ -1,17 +1,19 @@
 package control;
 
-import javax.swing.*;
+
+import application.SwingChronometer;
+import application.SwingRemainingMines;
 
 import static application.App.*;
 import static control.GameControl.maxMines;
 import static control.GameControl.restartGameInfo;
 
-public class ResetCommand implements Command {
+public class ResetCommand implements OperationCommand {
 
     @Override
     public void execute() {
         restartGameInfo();
-        ((JLabel) components().get("mines")).setText(Integer.toString(maxMines()));
+        ((SwingRemainingMines) components().get("mines")).setRemainingMines(maxMines());
         if(firstClick()) return;
         restartChronometer();
         camp().forEach((s, cell) -> cell.resetCell());
@@ -20,6 +22,6 @@ public class ResetCommand implements Command {
 
     private void restartChronometer() {
         chronometer().interrupt();
-        ((JLabel) components().get("chronometer")).setText("0");
+        ((SwingChronometer) components().get("chronometer")).resetTime();
     }
 }

@@ -113,5 +113,9 @@ public class GameControl {
     public static List<String> displayedCells(){
         return  displayedCells;
     }
+
+    public static void changeDifficulty(Difficulty newDifficulty){
+        difficulty = newDifficulty;
+    }
 }
 

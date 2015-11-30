@@ -27,6 +27,7 @@ public class CellPerimeter implements Perimeter {
     private Integer perimeterLimitComponentI(){
         return Integer.parseInt(perimeterLimits.get(0));
     }
+
     private Integer perimeterLimitComponentJ(){
         return Integer.parseInt(perimeterLimits.get(1));
     }

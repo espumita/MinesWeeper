@@ -1,11 +1,8 @@
 package control;
 
-import view.OpenDifficultyDialog;
+import javax.swing.*;
 
-public class DifficultyCommand implements Command {
-    private OpenDifficultyDialog OpenDifficultyDialog = new OpenDifficultyDialog();
-    @Override
-    public void execute() {
-         OpenDifficultyDialog.display();
-    }
+public interface DifficultyCommand extends Command {
+    void execute(JFrame app);
+    void resizeApplication(JFrame app, int i, int j);
 }

@@ -13,16 +13,16 @@ public class CustomDifficulty implements Difficulty{
 
     @Override
     public int getRows() {
-        return rows < 1 ? 1 : rows > 99 ? 99 : rows;
+        return rows < 1 ? 1 : rows > 24 ? 24 : rows;
     }
 
     @Override
     public int getColumns() {
-        return columns < 8 ? 8 : columns > 99 ? 99 : columns;
+        return columns < 8 ? 8 : columns > 30 ? 30 : columns;
     }
 
     @Override
     public int getMines() {
-        return mines < 0 ? 0 : mines > 9800 ? 9800 : mines;
+        return mines < 0 ? 0 : mines > (getRows()-1)*(getColumns()-1)+1 ? (getRows()-1)*(getColumns()-1)+1: mines;
     }
 }

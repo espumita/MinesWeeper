@@ -27,6 +27,7 @@ public class SetSecurePerimeterProcess implements Process{
         camp().get(cell).setCellIcon();
         displayedCells().add(cell);
     }
+
     private boolean isAvailableToSpread(String cell) {
         return !displayedCells().contains(cell) && !flagsFirstLevel().contains(cell);
     }

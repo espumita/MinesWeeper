@@ -1,6 +1,7 @@
 package process;
 
-import javax.swing.*;
+import application.SwingChronometer;
+
 
 import static application.App.components;
 
@@ -11,7 +12,7 @@ public class ChronometerThread extends Thread {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) { break; }
-            ((JLabel)components().get("chronometer")).setText(Integer.toString(seconds++));
+            ((SwingChronometer)components().get("chronometer")).setTimeTo(seconds++);
         }
     }
 

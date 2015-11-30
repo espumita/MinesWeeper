@@ -1,6 +1,6 @@
 package control;
 
-public class ExitCommand implements Command {
+public class ExitCommand implements OperationCommand {
 
     @Override
     public void execute() {
