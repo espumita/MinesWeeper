@@ -2,7 +2,7 @@ package application;
 
 import javax.swing.*;
 
-public class SwingChronometer extends JLabel {
+public class ChronometerLabel extends JLabel {
     public void resetTime(){
         this.setText("0");
     }

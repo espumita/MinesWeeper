@@ -13,11 +13,11 @@ import java.util.Map;
 import static control.GameControl.columns;
 import static control.GameControl.rows;
 
-public class SwingCustomDifficulty extends JDialog{
+public class CustomDifficultyDialog extends JDialog{
     private Map<String,JTextField> fields = new HashMap<>();
     private JFrame app;
 
-    public SwingCustomDifficulty(JFrame app) {
+    public CustomDifficultyDialog(JFrame app) {
         this.app = app;
         this.setResizable(false);
         this.setLocationRelativeTo(null);

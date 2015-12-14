@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 
-import static application.App.*;
+import static application.Application.*;
 
 public class GameControl {
     private static Difficulty difficulty = new MediumDifficulty();
@@ -71,7 +71,7 @@ public class GameControl {
     }
 
     private static void restartList(List<String> list) {
-        list.forEach(flag -> camp().get(flag).setCellGroundIcon());
+        list.forEach(flag -> camp().get(flag).icon("images/ground.png"));
         list.clear();
     }
 

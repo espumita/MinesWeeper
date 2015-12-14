@@ -2,8 +2,8 @@ package process;
 
 import control.GameControl;
 
-import static application.App.firstClick;
-import static application.App.camp;
+import static application.Application.firstClick;
+import static application.Application.camp;
 import static control.GameControl.*;
 
 
@@ -20,7 +20,7 @@ public class LeftClickProcess implements Process{
         if(isMine(cell)) {
             stopChronometer();
             displayAllCamp();
-        }else if(camp().get(cell).getAlertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
+        }else if(camp().get(cell).cell().alertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
             else displayCell(cell);
     }
 
@@ -52,14 +52,14 @@ public class LeftClickProcess implements Process{
     }
 
     private void displayCell(String cell) {
-        camp().get(cell).setCellIcon();
+        camp().get(cell).icon("images/" + camp().get(cell).cell().alertLevel() + "mine.png");
     }
 
     private void displayMine(String cell) {
-        camp().get(cell).setMineIcon();
+        camp().get(cell).icon("images/mine.png");
     }
 
     private void displayWrongMine(String cell) {
-        camp().get(cell).setWrongMineIcon();
+        camp().get(cell).icon("images/badMine.png");
     }
 }

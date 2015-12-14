@@ -1,10 +1,10 @@
 package control;
 
 
-import application.SwingChronometer;
-import application.SwingRemainingMines;
+import application.ChronometerLabel;
+import application.RemainingMinesLabel;
 
-import static application.App.*;
+import static application.Application.*;
 import static control.GameControl.maxMines;
 import static control.GameControl.restartGameInfo;
 
@@ -13,15 +13,15 @@ public class ResetCommand implements OperationCommand {
     @Override
     public void execute() {
         restartGameInfo();
-        ((SwingRemainingMines) components().get("mines")).setRemainingMines(maxMines());
+        ((RemainingMinesLabel) components().get("mines")).setRemainingMines(maxMines());
         if(firstClick()) return;
         restartChronometer();
-        camp().forEach((s, cell) -> cell.resetCell());
+        camp().forEach((s, cell) -> cell.cell().alertLevel(0));
         firstClick(true);
     }
 
     private void restartChronometer() {
         chronometer().interrupt();
-        ((SwingChronometer) components().get("chronometer")).resetTime();
+        ((ChronometerLabel) components().get("chronometer")).resetTime();
     }
 }

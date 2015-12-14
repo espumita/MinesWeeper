@@ -2,8 +2,8 @@ package control;
 
 import javax.swing.*;
 
-import static application.App.*;
-import static application.App.components;
+import static application.Application.*;
+import static application.Application.components;
 
 public class ResizeApplicationCommand implements Command {
     public void execute(JFrame app,int width, int height){

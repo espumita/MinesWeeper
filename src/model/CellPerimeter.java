@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static  application.App.camp;
+import static  application.Application.camp;
 
 public class CellPerimeter implements Perimeter {
     private List<String> perimeterLimits;

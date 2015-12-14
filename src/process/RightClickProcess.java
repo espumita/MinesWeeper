@@ -1,10 +1,10 @@
 package process;
 
 
-import application.SwingRemainingMines;
+import application.RemainingMinesLabel;
 
-import static application.App.camp;
-import static application.App.components;
+import static application.Application.camp;
+import static application.Application.components;
 import static control.GameControl.*;
 
 public class RightClickProcess implements Process{
@@ -18,7 +18,7 @@ public class RightClickProcess implements Process{
     private void addFlag(String cell) {
         displayFirstLevelFlag(cell);
         flagsFirstLevel().add(cell);
-        ((SwingRemainingMines)components().get("mines")).setRemainingMines(subMark());
+        ((RemainingMinesLabel)components().get("mines")).setRemainingMines(subMark());
     }
 
 
@@ -30,7 +30,7 @@ public class RightClickProcess implements Process{
     private void removeFlag(String cell) {
         flagsSecondLevel().remove(cell);
         flagsFirstLevel().remove(cell);
-        ((SwingRemainingMines) components().get("mines")).setRemainingMines(addMark());
+        ((RemainingMinesLabel) components().get("mines")).setRemainingMines(addMark());
         displayGround(cell);
     }
 
@@ -40,15 +40,15 @@ public class RightClickProcess implements Process{
     }
 
     private void displaySecondLevelFlag(String cell) {
-        camp().get(cell).setFlag2Icon();
+        camp().get(cell).icon("images/flag2.png");
     }
 
     private void displayGround(String cell) {
-        camp().get(cell).setCellGroundIcon();
+        camp().get(cell).icon("images/ground.png");
     }
 
     private void displayFirstLevelFlag(String cell) {
-        camp().get(cell).setFlagIcon();
+        camp().get(cell).icon("images/flag.png");
     }
 
     private boolean isDisplayed(String cell) {

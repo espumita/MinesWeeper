@@ -1,6 +1,7 @@
 package application;
 
 import control.*;
+import model.Cell;
 import process.ChronometerThread;
 import process.LeftClickProcess;
 import process.RightClickProcess;
@@ -13,19 +14,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class App extends JFrame {
+public class Application extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
-    private static Map<String, SwingCell> camp = new HashMap<>();
+    private static Map<String, CellButton> camp = new HashMap<>();
     private static boolean firstClick = true;
     private static GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private static Map<String,JComponent> components = new HashMap<>();
     private static ChronometerThread chronometer;
 
     public static void main(String[] args) {
-        new App().setVisible(true);
+        new Application().setVisible(true);
     }
 
-    public App() throws HeadlessException {
+    public Application() throws HeadlessException {
         createCommands();
         deployUI();
         pack();
@@ -126,7 +127,7 @@ public class App extends JFrame {
     }
 
     private JLabel remainingMines() {
-        SwingRemainingMines mines = new SwingRemainingMines();
+        RemainingMinesLabel mines = new RemainingMinesLabel();
         mines.setBackground(Color.cyan);
         mines.setOpaque(true);
         mines.setRemainingMines(40);
@@ -156,7 +157,7 @@ public class App extends JFrame {
     }
 
     private JLabel chronometerPanel() {
-        SwingChronometer chronometer = new SwingChronometer();
+        ChronometerLabel chronometer = new ChronometerLabel();
         chronometer.setBackground(Color.cyan);
         chronometer.setOpaque(true);
         components.put("chronometer",chronometer);
@@ -170,20 +171,20 @@ public class App extends JFrame {
     }
 
     private static JButton cell(int i, int j) {
-        JButton cell = new SwingCell();
-        camp.put(i+"_"+j, (SwingCell) cell);
-        cell.setName(i+"_"+j);
+        JButton cellButton = new CellButton(new Cell());
+        camp.put(i+"_"+j, (CellButton) cellButton);
+        cellButton.setName(i+"_"+j);
         gridBagConstraints.gridx = j;
         gridBagConstraints.gridy = i;
-        cell.setPreferredSize(new Dimension(25,25));
-        cell.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
-        cell.addMouseListener(new MouseAdapter() {
+        cellButton.setPreferredSize(new Dimension(25,25));
+        cellButton.addActionListener(e -> new LeftClickProcess().run(i+"_"+j)  );
+        cellButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) new RightClickProcess().run(i+"_"+j);
             }
         });
-        return cell;
+        return cellButton;
     }
 
     public static void firstClick(boolean status){
@@ -194,7 +195,7 @@ public class App extends JFrame {
         return firstClick;
     }
 
-    public static  Map<String, SwingCell> camp(){
+    public static  Map<String, CellButton> camp(){
         return camp;
     }
 
