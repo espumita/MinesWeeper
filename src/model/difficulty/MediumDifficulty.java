@@ -1,6 +1,8 @@
-package model;
+package model.difficulty;
 
-public class HardDifficulty implements Difficulty{
+
+public class MediumDifficulty implements Difficulty {
+
     @Override
     public int getRows() {
         return 16;
@@ -8,11 +10,11 @@ public class HardDifficulty implements Difficulty{
 
     @Override
     public int getColumns() {
-        return 30;
+        return 16;
     }
 
     @Override
     public int getMines() {
-        return 99;
+        return 40;
     }
 }

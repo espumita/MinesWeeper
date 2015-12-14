@@ -1,10 +1,10 @@
 package application;
 
-import control.*;
+import control.command.*;
 import model.Cell;
-import process.ChronometerThread;
-import process.LeftClickProcess;
-import process.RightClickProcess;
+import control.process.ChronometerThread;
+import control.process.LeftClickProcess;
+import control.process.RightClickProcess;
 
 import javax.swing.*;
 import java.awt.*;

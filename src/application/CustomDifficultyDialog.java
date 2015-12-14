@@ -2,8 +2,8 @@ package application;
 
 
 import control.GameControl;
-import control.ResizeApplicationCommand;
-import model.CustomDifficulty;
+import control.command.ResizeApplicationCommand;
+import model.difficulty.CustomDifficulty;
 
 import javax.swing.*;
 import java.awt.*;

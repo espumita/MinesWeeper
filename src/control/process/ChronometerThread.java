@@ -1,4 +1,4 @@
-package process;
+package control.process;
 
 import application.ChronometerLabel;
 

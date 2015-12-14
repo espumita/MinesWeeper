@@ -1,10 +1,10 @@
 package control;
 
-import model.Difficulty;
-import model.MediumDifficulty;
-import model.CellPerimeter;
-import process.ChronometerThread;
-import process.SetAlertPerimeterProcess;
+import control.process.ChronometerThread;
+import model.difficulty.Difficulty;
+import model.difficulty.MediumDifficulty;
+import model.Perimeter;
+import control.process.SetAlertPerimeterProcess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class GameControl {
     }
 
     private List<String> startPerimeter(String cell) {
-        List<String> startPerimeter = new CellPerimeter().get(cell);
+        List<String> startPerimeter = new Perimeter(cell).get();
         startPerimeter.add(cell);
         return startPerimeter;
     }

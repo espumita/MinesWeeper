@@ -1,4 +1,4 @@
-package model;
+package model.difficulty;
 
 public class CustomDifficulty implements Difficulty{
     private final int rows;

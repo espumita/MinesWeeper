@@ -1,4 +1,4 @@
-package model;
+package model.difficulty;
 
 
 public class EasyDifficulty implements Difficulty{

@@ -1,7 +1,7 @@
-package process;
+package control.process;
 
 
-import model.CellPerimeter;
+import model.Perimeter;
 
 import static application.Application.camp;
 import static control.GameControl.displayedCells;
@@ -11,7 +11,7 @@ public class SetSecurePerimeterProcess implements Process{
     @Override
     public void run(String cell) {
         displayCell(cell);
-        new CellPerimeter().get(cell).stream().filter(c -> isAvailableToSpread(c)).forEach(s -> checkSpread(s));
+        new Perimeter(cell).get().stream().filter(c -> isAvailableToSpread(c)).forEach(s -> checkSpread(s));
     }
 
     private void checkSpread(String cell) {

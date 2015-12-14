@@ -1,4 +1,4 @@
-package model;
+package model.difficulty;
 
 public interface Difficulty {
 

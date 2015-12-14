@@ -1,7 +1,7 @@
-package control;
+package control.command;
 
-import model.Difficulty;
-import model.MediumDifficulty;
+import model.difficulty.Difficulty;
+import model.difficulty.MediumDifficulty;
 
 import javax.swing.*;
 
