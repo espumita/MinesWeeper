@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import static control.GameControl.columns;
+import static control.GameControl.rows;
+
 public class Application extends JFrame {
     private static Map<String, Command> commands = new HashMap<>();
     private static Map<String, CellButton> camp = new HashMap<>();
@@ -21,6 +24,7 @@ public class Application extends JFrame {
     private static GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private static Map<String,JComponent> components = new HashMap<>();
     private static ChronometerThread chronometer;
+    private static Application staticApplicationReference;
 
     public static void main(String[] args) {
         new Application().setVisible(true);
@@ -29,6 +33,7 @@ public class Application extends JFrame {
     public Application() throws HeadlessException {
         createCommands();
         deployUI();
+        staticApplicationReference =this;
         pack();
     }
 
@@ -44,7 +49,7 @@ public class Application extends JFrame {
     private void deployUI() {
         this.setTitle("Minesweeper");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        applicationResize(this,16,16);
+        this.setMinimumSize(new Dimension(25*16,25*16+90));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setJMenuBar(menuBar());
@@ -77,31 +82,31 @@ public class Application extends JFrame {
 
     private JMenuItem customMenu() {
         JMenuItem custom = new JMenuItem("Custom");
-        custom.addActionListener(e -> ((DifficultyCommand) commands.get("Custom")).execute(this));
+        custom.addActionListener(e ->  commands.get("Custom").execute());
         return custom;
     }
 
     private JMenuItem hardMenu() {
         JMenuItem hard = new JMenuItem("Hard");
-        hard.addActionListener(e -> ((DifficultyCommand) commands.get("Hard")).execute(this));
+        hard.addActionListener(e -> commands.get("Hard").execute());
         return hard;
     }
 
     private JMenuItem mediumMenu() {
         JMenuItem medium = new JMenuItem("Medium");
-        medium.addActionListener(e -> ((DifficultyCommand) commands.get("Medium")).execute(this));
+        medium.addActionListener(e ->  commands.get("Medium").execute());
         return medium;
     }
 
     private JMenuItem easyMenu() {
         JMenuItem easy = new JMenuItem("Easy");
-        easy.addActionListener(e -> ((DifficultyCommand) commands.get("Easy")).execute(this));
+        easy.addActionListener(e -> commands.get("Easy").execute());
         return easy;
     }
 
     private JMenuItem exitOperation() {
         JMenuItem operation = new JMenuItem("Exit");
-        operation.addActionListener(e -> ((OperationCommand) commands.get("Exit")).execute());
+        operation.addActionListener(e -> commands.get("Exit").execute());
         return operation;
     }
 
@@ -139,7 +144,7 @@ public class Application extends JFrame {
         JButton reset = new JButton();
         reset.setIcon(new ImageIcon("images/reset.png"));
         reset.setPreferredSize(new Dimension(75,75));
-        reset.addActionListener(e -> ((OperationCommand) commands.get("Reset")).execute());
+        reset.addActionListener(e -> commands.get("Reset").execute());
         return reset;
 
     }
@@ -149,7 +154,7 @@ public class Application extends JFrame {
         board.setBackground(Color.darkGray);
         board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         components.put("board",board);
-        boardResize(16,16);
+        board.setMinimumSize(new Dimension(25*16,25*16));
         gridBagConstraints.insets = new Insets(0,0,0,0);
         board.setLayout(new GridBagLayout());
         deployCells(board,16,16);
@@ -211,12 +216,14 @@ public class Application extends JFrame {
         chronometer = newChronometer;
     }
 
-    public static void applicationResize(JFrame frame, int height, int width){
-        frame.setMinimumSize(new Dimension(25*height,25*width+90));
-    }
+    public static void applicationResize(){
+        staticApplicationReference.setMinimumSize(new Dimension(25*columns(),25* rows()+90));
+        components().get("board").setMinimumSize(new Dimension(25*columns(),25*rows()));
+        components().get("board").removeAll();
+        deployCells((JPanel) components().get("board"),rows(),columns());
+        new ResetCommand().execute();
+        staticApplicationReference.pack();
 
-    public static void boardResize(int height,int width) {
-        components.get("board").setMinimumSize(new Dimension(25*height,25*width));
     }
 
 }

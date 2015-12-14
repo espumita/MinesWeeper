@@ -1,6 +1,7 @@
 package model.difficulty;
 
 public class HardDifficulty implements Difficulty{
+
     @Override
     public int getRows() {
         return 16;

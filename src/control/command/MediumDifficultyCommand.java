@@ -3,19 +3,16 @@ package control.command;
 import model.difficulty.Difficulty;
 import model.difficulty.MediumDifficulty;
 
-import javax.swing.*;
 
-
+import static application.Application.applicationResize;
 import static control.GameControl.changeDifficulty;
-import static control.GameControl.columns;
-import static control.GameControl.rows;
 
-public class MediumDifficultyCommand implements DifficultyCommand {
+public class MediumDifficultyCommand implements Command {
     @Override
-    public void execute(JFrame app) {
+    public void execute() {
         Difficulty newDifficulty = new MediumDifficulty();
         changeDifficulty(newDifficulty);
-        new ResizeApplicationCommand().execute(app,rows(),columns());
+        applicationResize();
     }
 
 }

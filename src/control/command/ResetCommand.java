@@ -1,6 +1,5 @@
 package control.command;
 
-
 import application.ChronometerLabel;
 import application.RemainingMinesLabel;
 
@@ -8,7 +7,7 @@ import static application.Application.*;
 import static control.GameControl.maxMines;
 import static control.GameControl.restartGameInfo;
 
-public class ResetCommand implements OperationCommand {
+public class ResetCommand implements Command {
 
     @Override
     public void execute() {

@@ -1,22 +1,18 @@
 package control.command;
 
-
 import model.difficulty.Difficulty;
 import model.difficulty.HardDifficulty;
 
-import javax.swing.*;
-
+import static application.Application.applicationResize;
 import static control.GameControl.changeDifficulty;
-import static control.GameControl.columns;
-import static control.GameControl.rows;
 
 
-public class HardDifficultyCommand implements DifficultyCommand {
+public class HardDifficultyCommand implements Command {
     @Override
-    public void execute(JFrame app) {
+    public void execute() {
         Difficulty newDifficulty = new HardDifficulty();
         changeDifficulty(newDifficulty);
-        new ResizeApplicationCommand().execute(app,rows(),columns());
+        applicationResize();
     }
 
 }

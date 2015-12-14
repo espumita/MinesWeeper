@@ -2,7 +2,6 @@ package application;
 
 
 import control.GameControl;
-import control.command.ResizeApplicationCommand;
 import model.difficulty.CustomDifficulty;
 
 import javax.swing.*;
@@ -10,15 +9,12 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static control.GameControl.columns;
-import static control.GameControl.rows;
+import static application.Application.applicationResize;
 
 public class CustomDifficultyDialog extends JDialog{
     private Map<String,JTextField> fields = new HashMap<>();
-    private JFrame app;
 
-    public CustomDifficultyDialog(JFrame app) {
-        this.app = app;
+    public CustomDifficultyDialog() {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(300,200));
@@ -56,7 +52,7 @@ public class CustomDifficultyDialog extends JDialog{
 
     private  void changeDifficulty() {
         GameControl.changeDifficulty(new CustomDifficulty(fieldContent("rows"),fieldContent("columns"),fieldContent("mines")));
-        new ResizeApplicationCommand().execute(app,rows(),columns());
+        applicationResize();
         dispose();
     }
 

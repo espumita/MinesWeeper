@@ -17,4 +17,5 @@ public class MediumDifficulty implements Difficulty {
     public int getMines() {
         return 40;
     }
+
 }
