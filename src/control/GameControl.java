@@ -71,7 +71,7 @@ public class GameControl {
     }
 
     private static void restartList(List<String> list) {
-        list.forEach(flag -> camp().get(flag).icon("images/ground.png"));
+        list.forEach(flag -> campButton(flag).icon("images/ground.png"));
         list.clear();
     }
 

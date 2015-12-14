@@ -1,6 +1,5 @@
 package control.command;
 
-import model.difficulty.Difficulty;
 import model.difficulty.MediumDifficulty;
 
 
@@ -10,8 +9,7 @@ import static control.GameControl.changeDifficulty;
 public class MediumDifficultyCommand implements Command {
     @Override
     public void execute() {
-        Difficulty newDifficulty = new MediumDifficulty();
-        changeDifficulty(newDifficulty);
+        changeDifficulty(new MediumDifficulty());
         applicationResize();
     }
 

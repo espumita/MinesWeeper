@@ -13,12 +13,12 @@ public class CustomDifficulty implements Difficulty{
 
     @Override
     public int getRows() {
-        return rows < 1 ? 1 : rows > 24 ? 24 : rows;
+        return rows < 1 ? 9 : rows > 24 ? 24 : rows;
     }
 
     @Override
     public int getColumns() {
-        return columns < 8 ? 8 : columns > 30 ? 30 : columns;
+        return columns < 9 ? 9 : columns > 30 ? 30 : columns;
     }
 
     @Override

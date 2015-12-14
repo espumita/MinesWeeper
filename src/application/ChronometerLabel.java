@@ -7,7 +7,7 @@ public class ChronometerLabel extends JLabel {
         this.setText("0");
     }
 
-    public void setTimeTo(int time){
+    public void time(int time){
         this.setText(Integer.toString(time));
     }
 }

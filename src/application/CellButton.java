@@ -10,7 +10,6 @@ public class CellButton extends JButton implements CellDisplay {
 
     public CellButton(Cell cell) {
         this.cell = cell;
-        this.icon("images/ground.png");
     }
 
     @Override

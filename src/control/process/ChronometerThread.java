@@ -11,8 +11,10 @@ public class ChronometerThread extends Thread {
         while(true){
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) { break; }
-            ((ChronometerLabel)components().get("chronometer")).setTimeTo(seconds++);
+            } catch (InterruptedException e) {
+                break;
+            }
+            ((ChronometerLabel)components().get("chronometer")).time(seconds++);
         }
     }
 

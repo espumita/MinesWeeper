@@ -135,7 +135,7 @@ public class Application extends JFrame {
         RemainingMinesLabel mines = new RemainingMinesLabel();
         mines.setBackground(Color.cyan);
         mines.setOpaque(true);
-        mines.setRemainingMines(40);
+        mines.remainingMines(40);
         components.put("mines",mines);
         return mines;
     }
@@ -172,13 +172,15 @@ public class Application extends JFrame {
 
 
     public static void deployCells(JPanel board,int i,int j) {
-        IntStream.range(0,i).forEach(k -> IntStream.range(0,j).forEach(l -> board.add(cell(k,l),gridBagConstraints)));
+        IntStream.range(0,i).
+                forEach(k -> IntStream.range(0,j).
+                        forEach(l -> board.add(cell(k,l),gridBagConstraints)));
     }
 
     private static JButton cell(int i, int j) {
         JButton cellButton = new CellButton(new Cell());
+        ((CellButton) cellButton).icon("images/ground.png");
         camp.put(i+"_"+j, (CellButton) cellButton);
-        cellButton.setName(i+"_"+j);
         gridBagConstraints.gridx = j;
         gridBagConstraints.gridy = i;
         cellButton.setPreferredSize(new Dimension(25,25));
@@ -204,6 +206,14 @@ public class Application extends JFrame {
         return camp;
     }
 
+    public static Cell campCell(String cell){
+        return campButton(cell).cell();
+    }
+
+    public static CellButton campButton(String cell){
+        return camp.get(cell);
+    }
+
     public static  Map<String, JComponent> components(){
         return components;
     }
@@ -223,7 +233,6 @@ public class Application extends JFrame {
         deployCells((JPanel) components().get("board"),rows(),columns());
         new ResetCommand().execute();
         staticApplicationReference.pack();
-
     }
 
 }

@@ -12,7 +12,7 @@ public class ResetCommand implements Command {
     @Override
     public void execute() {
         restartGameInfo();
-        ((RemainingMinesLabel) components().get("mines")).setRemainingMines(maxMines());
+        ((RemainingMinesLabel) components().get("mines")).remainingMines(maxMines());
         if(firstClick()) return;
         restartChronometer();
         camp().forEach((s, cell) -> cell.cell().alertLevel(0));

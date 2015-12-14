@@ -3,7 +3,7 @@ package control.process;
 
 import application.RemainingMinesLabel;
 
-import static application.Application.camp;
+import static application.Application.campButton;
 import static application.Application.components;
 import static control.GameControl.*;
 
@@ -18,7 +18,7 @@ public class RightClickProcess implements Process{
     private void addFlag(String cell) {
         displayFirstLevelFlag(cell);
         flagsFirstLevel().add(cell);
-        ((RemainingMinesLabel)components().get("mines")).setRemainingMines(subMark());
+        ((RemainingMinesLabel)components().get("mines")).remainingMines(subMark());
     }
 
 
@@ -30,7 +30,7 @@ public class RightClickProcess implements Process{
     private void removeFlag(String cell) {
         flagsSecondLevel().remove(cell);
         flagsFirstLevel().remove(cell);
-        ((RemainingMinesLabel) components().get("mines")).setRemainingMines(addMark());
+        ((RemainingMinesLabel) components().get("mines")).remainingMines(addMark());
         displayGround(cell);
     }
 
@@ -40,15 +40,15 @@ public class RightClickProcess implements Process{
     }
 
     private void displaySecondLevelFlag(String cell) {
-        camp().get(cell).icon("images/flag2.png");
+        campButton(cell).icon("images/flag2.png");
     }
 
     private void displayGround(String cell) {
-        camp().get(cell).icon("images/ground.png");
+        campButton(cell).icon("images/ground.png");
     }
 
     private void displayFirstLevelFlag(String cell) {
-        camp().get(cell).icon("images/flag.png");
+        campButton(cell).icon("images/flag.png");
     }
 
     private boolean isDisplayed(String cell) {

@@ -2,8 +2,7 @@ package control.process;
 
 import control.GameControl;
 
-import static application.Application.firstClick;
-import static application.Application.camp;
+import static application.Application.*;
 import static control.GameControl.*;
 
 
@@ -12,7 +11,7 @@ public class LeftClickProcess implements Process{
     public void run(String cell) {
         if(firstClick()) new GameControl().startGame(cell);
         if(isFlag(cell) || isDisplayed(cell)) return;
-        setDisplayed(cell);
+        displayed(cell);
         handleCellDisplay(cell);
     }
 
@@ -20,11 +19,11 @@ public class LeftClickProcess implements Process{
         if(isMine(cell)) {
             stopChronometer();
             displayAllCamp();
-        }else if(camp().get(cell).cell().alertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
+        }else if(campCell(cell).alertLevel() == 0) new SetSecurePerimeterProcess().run(cell);
             else displayCell(cell);
     }
 
-    private void setDisplayed(String cell) {
+    private void displayed(String cell) {
         displayedCells().add(cell);
     }
 
@@ -41,25 +40,25 @@ public class LeftClickProcess implements Process{
     }
 
     private void displayAllCamp() {
-        camp().forEach((s, cell) -> display(s));
+        camp().forEach((cellString, cell) -> display(cellString));
     }
 
     private void display(String cell) {
-        setDisplayed(cell);
+        displayed(cell);
         if(isFlag(cell) && !isMine(cell)) displayWrongMine(cell);
         else if (isMine(cell)) displayMine(cell);
             else displayCell(cell);
     }
 
     private void displayCell(String cell) {
-        camp().get(cell).icon("images/" + camp().get(cell).cell().alertLevel() + "mine.png");
+        campButton(cell).icon("images/" + campCell(cell).alertLevel() + "mine.png");
     }
 
     private void displayMine(String cell) {
-        camp().get(cell).icon("images/mine.png");
+        campButton(cell).icon("images/mine.png");
     }
 
     private void displayWrongMine(String cell) {
-        camp().get(cell).icon("images/badMine.png");
+        campButton(cell).icon("images/badMine.png");
     }
 }
