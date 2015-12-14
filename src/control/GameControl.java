@@ -1,10 +1,10 @@
 package control;
 
-import control.process.ChronometerThread;
+import view.process.ChronometerThread;
 import model.difficulty.Difficulty;
 import model.difficulty.MediumDifficulty;
 import model.Perimeter;
-import control.process.SetAlertPerimeterProcess;
+import view.process.SetAlertPerimeterProcess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,5 +116,7 @@ public class GameControl {
     public static void changeDifficulty(Difficulty newDifficulty){
         difficulty = newDifficulty;
     }
+
+
 }
 

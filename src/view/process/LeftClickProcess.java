@@ -1,12 +1,14 @@
-package control.process;
+package view.process;
 
 import control.GameControl;
+
+import java.lang.*;
 
 import static application.Application.*;
 import static control.GameControl.*;
 
 
-public class LeftClickProcess implements Process{
+public class LeftClickProcess implements Process {
     @Override
     public void run(String cell) {
         if(firstClick()) new GameControl().startGame(cell);

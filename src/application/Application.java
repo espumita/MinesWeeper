@@ -2,9 +2,9 @@ package application;
 
 import control.command.*;
 import model.Cell;
-import control.process.ChronometerThread;
-import control.process.LeftClickProcess;
-import control.process.RightClickProcess;
+import view.process.ChronometerThread;
+import view.process.LeftClickProcess;
+import view.process.RightClickProcess;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +41,7 @@ public class Application extends JFrame {
         commands.put("Easy", new EasyDifficultyCommand());
         commands.put("Medium", new MediumDifficultyCommand());
         commands.put("Hard", new HardDifficultyCommand());
-        commands.put("Custom", new CustomDifficultyCommand());
+        commands.put("Custom", new CustomDifficultyCommand(new CustomDifficultyDialog()));
         commands.put("Reset", new ResetCommand());
         commands.put("Exit", new ExitCommand());
     }

@@ -3,25 +3,35 @@ package application;
 
 import control.GameControl;
 import model.difficulty.CustomDifficulty;
+import view.UI.CustomDifficultyDisplay;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import static application.Application.applicationResize;
 
-public class CustomDifficultyDialog extends JDialog{
-    private Map<String,JTextField> fields = new HashMap<>();
+public class CustomDifficultyDialog extends JDialog implements CustomDifficultyDisplay{
+    private Map<String,JTextField> fieldsComponents = new HashMap<>();
 
     public CustomDifficultyDialog() {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setMinimumSize(new Dimension(300,200));
+        this.setMinimumSize(new Dimension(500,200));
         this.setTitle("Select custom properties: ");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.add(mainPanel());
         this.pack();
+    }
+
+    @Override
+    public void display() {
+        fieldsComponents.get("rows").setText("");
+        fieldsComponents.get("columns").setText("");
+        fieldsComponents.get("mines").setText("");
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -58,28 +68,28 @@ public class CustomDifficultyDialog extends JDialog{
 
     private int fieldContent(String field){
         try{
-            return Integer.parseInt(fields.get(field).getText());
+            return Integer.parseInt(fieldsComponents.get(field).getText());
         }catch (Exception e){ return  0; }
     }
 
     private JTextField rowsField() {
         JTextField field = new JTextField();
-        fields.put("rows",field);
-        field.setPreferredSize(new Dimension(30,25));
+        fieldsComponents.put("rows",field);
+        field.setPreferredSize(new Dimension(40,24));
         return field;
     }
 
     private JTextField columnsField() {
         JTextField field = new JTextField();
-        fields.put("columns",field);
-        field.setPreferredSize(new Dimension(30,25));
+        fieldsComponents.put("columns",field);
+        field.setPreferredSize(new Dimension(40,24));
         return field;
     }
 
     private JTextField minesField() {
         JTextField field = new JTextField();
-        fields.put("mines",field);
-        field.setPreferredSize(new Dimension(30,25));
+        fieldsComponents.put("mines",field);
+        field.setPreferredSize(new Dimension(40,24));
         return field;
     }
 
