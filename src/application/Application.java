@@ -226,13 +226,8 @@ public class Application extends JFrame {
         chronometer = newChronometer;
     }
 
-    public static void applicationResize(){
-        staticApplicationReference.setMinimumSize(new Dimension(25*columns(),25* rows()+90));
-        components().get("board").setMinimumSize(new Dimension(25*columns(),25*rows()));
-        components().get("board").removeAll();
-        deployCells((JPanel) components().get("board"),rows(),columns());
-        new ResetCommand().execute();
-        staticApplicationReference.pack();
+    public static Application staticApplicationReference(){
+        return staticApplicationReference;
     }
 
 }

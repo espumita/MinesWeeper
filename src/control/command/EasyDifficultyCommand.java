@@ -1,9 +1,11 @@
 package control.command;
 
+import application.ApplicationNewSize;
 import model.difficulty.EasyDifficulty;
 
-import static application.Application.applicationResize;
 import static control.GameControl.changeDifficulty;
+import static control.GameControl.columns;
+import static control.GameControl.rows;
 
 
 public class EasyDifficultyCommand implements Command {
@@ -11,7 +13,7 @@ public class EasyDifficultyCommand implements Command {
     @Override
     public void execute() {
         changeDifficulty(new EasyDifficulty());
-        applicationResize();
+        new ApplicationNewSize(rows(),columns()).refresh();
     }
 
 

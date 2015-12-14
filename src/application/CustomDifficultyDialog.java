@@ -11,7 +11,8 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static application.Application.applicationResize;
+import static control.GameControl.columns;
+import static control.GameControl.rows;
 
 public class CustomDifficultyDialog extends JDialog implements CustomDifficultyDisplay{
     private Map<String,JTextField> fieldsComponents = new HashMap<>();
@@ -62,7 +63,7 @@ public class CustomDifficultyDialog extends JDialog implements CustomDifficultyD
 
     private  void changeDifficulty() {
         GameControl.changeDifficulty(new CustomDifficulty(fieldContent("rows"),fieldContent("columns"),fieldContent("mines")));
-        applicationResize();
+        new ApplicationNewSize(rows(),columns()).refresh();
         dispose();
     }
 
